@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="id" class="h-full">
- <head><script src="/_sdk/telemetry_sdk.js"></script>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tes Kecermatan Polri</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/data_sdk.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     .btn-primary { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
@@ -83,51 +81,53 @@
       .creation-grid { grid-template-columns: 1fr; }
     }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
- </head>
- <body class="h-full bg-gradient-to-br from-slate-100 to-blue-50">
-  <div id="app" class="h-full overflow-auto"><!-- Loading Screen -->
+</head>
+<body class="h-full bg-gradient-to-br from-slate-100 to-blue-50">
+  <div id="app" class="h-full overflow-auto">
    <div id="loading-screen" class="h-full flex items-center justify-center">
     <div class="text-center">
      <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
      <p class="text-gray-600 font-medium">Memuat sistem...</p>
     </div>
-   </div><!-- Main Menu -->
+   </div>
+   
    <div id="main-menu" class="h-full flex flex-col items-center justify-center p-6 hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800">
     <div class="text-center fade-in">
      <div class="mb-12">
       <div class="inline-flex items-center justify-center w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl mb-6 shadow-2xl border border-white/20">
-       <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+       <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
        </svg>
       </div>
       <h1 id="app-title" class="text-5xl md:text-6xl font-extrabold text-white mb-3 tracking-tight">Tes Kecermatan Polri</h1>
      </div>
      <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto"><button onclick="showPanel('student-login')" class="group relative overflow-hidden bg-white hover:bg-gray-50 text-blue-700 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
        <div class="flex items-center justify-center gap-3">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg><span>Siswa</span>
        </div></button> <button onclick="showPanel('admin-login')" class="group relative overflow-hidden bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-2 border-white/30 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
        <div class="flex items-center justify-center gap-3">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg><span>Admin</span>
        </div></button>
      </div>
     </div>
-   </div><!-- Admin Login -->
+   </div>
+   
    <div id="admin-login" class="h-full flex flex-col items-center justify-center p-6 hidden">
     <div class="card p-8 max-w-md w-full fade-in"><button onclick="showPanel('main-menu')" class="mb-6 text-gray-500 hover:text-gray-700 flex items-center gap-2">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg> Kembali </button>
      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login Admin</h2>
      <div class="space-y-4">
       <div class="relative"><input type="password" id="admin-password" class="input-field w-full pr-12" placeholder="Masukkan Password"> <button onclick="togglePassword('admin-password', 'admin-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-        <svg id="admin-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        <svg id="admin-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg></button>
       </div>
       <p id="admin-login-error" class="text-red-500 text-sm hidden">Password salah!</p><button onclick="adminLogin()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold">Masuk</button> <button onclick="showForgotPassword()" class="w-full text-blue-600 hover:text-blue-700 text-sm font-medium">Lupa Password?</button>
      </div>
     </div>
-   </div><!-- Forgot Password Modal -->
+   </div>
+   
    <div id="forgot-password-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
     <div class="card p-6 max-w-md w-full fade-in">
      <h3 class="text-xl font-bold mb-4">Reset Password</h3>
@@ -136,36 +136,38 @@
      </div>
      <p id="reset-message" class="mt-4 text-sm text-center hidden"></p>
     </div>
-   </div><!-- Student Login -->
+   </div>
+   
    <div id="student-login" class="h-full flex flex-col items-center justify-center p-6 hidden">
     <div class="card p-8 max-w-md w-full fade-in"><button onclick="showPanel('main-menu')" class="mb-6 text-gray-500 hover:text-gray-700 flex items-center gap-2">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg> Kembali </button>
      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login Siswa</h2>
      <div class="space-y-4"><input type="text" id="student-username" class="input-field w-full" placeholder="Username">
       <div class="relative"><input type="password" id="student-password" class="input-field w-full pr-12" placeholder="Password"> <button onclick="togglePassword('student-password', 'student-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-        <svg id="student-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        <svg id="student-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg></button>
       </div>
       <p id="student-login-error" class="text-red-500 text-sm hidden"></p><button onclick="studentLogin()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold">Masuk</button>
      </div>
     </div>
-   </div><!-- Admin Dashboard -->
+   </div>
+   
    <div id="admin-dashboard" class="h-full flex flex-col hidden">
     <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
      <div class="flex items-center gap-4">
       <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
-       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
        </svg>
       </div>
       <h1 class="text-xl font-bold text-gray-800">Panel Admin</h1>
      </div><button onclick="adminLogout()" class="flex items-center gap-2 text-gray-600 hover:text-red-600 font-medium">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
       </svg> Keluar </button>
     </header>
-    <div class="flex-1 overflow-auto p-6"><!-- Admin Tabs -->
+    <div class="flex-1 overflow-auto p-6">
      <div class="flex flex-wrap gap-2 mb-6"><button onclick="showAdminTab('students')" class="tab-btn active" id="tab-students">Kelola Siswa</button> <button onclick="showAdminTab('questions')" class="tab-btn" id="tab-questions">Kelola Soal</button> <button onclick="showAdminTab('monitoring')" class="tab-btn" id="tab-monitoring">Monitoring</button> <button onclick="showAdminTab('results')" class="tab-btn" id="tab-results">Hasil Ujian</button> <button onclick="showAdminTab('trash')" class="tab-btn" id="tab-trash">Sampah</button> <button onclick="showAdminTab('settings')" class="tab-btn" id="tab-settings">Pengaturan</button>
-     </div><!-- Students Management -->
+     </div>
      <div id="admin-students" class="fade-in">
       <div class="card p-6 mb-6">
        <h3 class="text-lg font-bold mb-4">Buat Akun Siswa Baru</h3>
@@ -178,7 +180,7 @@
         <p class="text-gray-500 text-center py-8">Belum ada akun siswa</p>
        </div>
       </div>
-     </div><!-- Questions Management -->
+     </div>
      <div id="admin-questions" class="hidden fade-in">
       <div class="card p-6 mb-6">
        <h3 class="text-2xl font-bold mb-2">🎯 Buat Paket Soal Baru</h3>
@@ -216,7 +218,7 @@
         <p class="text-gray-500 text-center py-8">Belum ada paket soal</p>
        </div>
       </div>
-     </div><!-- Monitoring -->
+     </div>
      <div id="admin-monitoring" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Aktivitas Siswa</h3>
@@ -224,7 +226,7 @@
         <p class="text-gray-500 text-center py-8">Tidak ada aktivitas saat ini</p>
        </div>
       </div>
-     </div><!-- Results -->
+     </div>
      <div id="admin-results" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Hasil Ujian Siswa</h3>
@@ -232,7 +234,7 @@
         <p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>
        </div>
       </div>
-     </div><!-- Trash -->
+     </div>
      <div id="admin-trash" class="hidden fade-in">
       <div class="card p-6">
        <div class="flex items-center justify-between mb-4">
@@ -242,17 +244,17 @@
         <p class="text-gray-500 text-center py-8">Sampah kosong</p>
        </div>
       </div>
-     </div><!-- Settings -->
+     </div>
      <div id="admin-settings" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Ganti Password Admin</h3>
        <div class="space-y-4 max-w-md">
         <div class="relative"><input type="password" id="current-admin-password" class="input-field w-full pr-12" placeholder="Password Saat Ini"> <button onclick="togglePassword('current-admin-password', 'current-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-          <svg id="current-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          <svg id="current-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg></button>
         </div>
         <div class="relative"><input type="password" id="new-admin-password" class="input-field w-full pr-12" placeholder="Password Baru"> <button onclick="togglePassword('new-admin-password', 'new-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-          <svg id="new-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          <svg id="new-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg></button>
         </div><button onclick="changeAdminPassword()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold w-full">Simpan Password Baru</button>
         <p id="password-change-message" class="text-sm text-center hidden"></p>
@@ -266,12 +268,13 @@
       </div>
      </div>
     </div>
-   </div><!-- Student Dashboard -->
+   </div>
+   
    <div id="student-dashboard" class="h-full flex flex-col hidden">
     <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
      <div class="flex items-center gap-4">
       <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center">
-       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
        </svg>
       </div>
       <div>
@@ -279,7 +282,7 @@
        <p id="student-name-display" class="text-sm text-gray-500"></p>
       </div>
      </div><button onclick="studentLogout()" class="flex items-center gap-2 text-gray-600 hover:text-red-600 font-medium">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
       </svg> Keluar </button>
     </header>
     <div class="flex-1 overflow-auto p-6">
@@ -298,11 +301,12 @@
       </div>
      </div>
     </div>
-   </div><!-- Test Preparation -->
+   </div>
+   
    <div id="test-preparation" class="h-full flex flex-col items-center justify-center p-6 hidden">
     <div class="card p-10 max-w-lg w-full text-center fade-in">
      <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
      </div>
      <h2 class="text-2xl font-bold mb-2">Siap Memulai Tes?</h2>
@@ -310,7 +314,8 @@
      <div class="space-y-3"><button onclick="startCountdown()" class="w-full btn-primary text-white py-4 px-8 rounded-xl font-semibold text-lg pulse shadow-lg hover:shadow-xl transition-all"> Mulai Tes Sekarang </button> <button onclick="backToStudentDashboardFromPrep()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-8 rounded-xl font-semibold transition-all"> Kembali </button>
      </div>
     </div>
-   </div><!-- Countdown Screen -->
+   </div>
+   
    <div id="countdown-screen" class="h-full flex flex-col items-center justify-center hidden">
     <div class="text-center fade-in">
      <p class="text-2xl text-gray-600 mb-4">Bersiap...</p>
@@ -318,35 +323,37 @@
       3
      </div>
     </div>
-   </div><!-- Test Screen -->
-   <div id="test-screen" class="h-full flex flex-col hidden bg-white"><!-- Header Kompak & Responsif -->
+   </div>
+   
+   <div id="test-screen" class="h-full flex flex-col hidden bg-white">
     <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-3 sm:px-4 py-2 shadow-md">
      <div class="flex items-center justify-center gap-3 sm:gap-6">
       <div class="bg-white/20 px-2 sm:px-3 py-1 rounded-lg"><span class="text-white text-xs sm:text-sm font-semibold">Kolom: <span id="current-column" class="text-sm sm:text-lg">1/10</span></span>
       </div>
       <div class="bg-white/20 px-2 sm:px-3 py-1 rounded-lg flex items-center gap-1 sm:gap-2">
-       <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
        </svg><span id="timer-display" class="text-white text-sm sm:text-lg font-bold">60</span>
       </div>
      </div>
      <div class="h-1 bg-white/20 mt-2 rounded-full overflow-hidden max-w-md mx-auto">
       <div id="timer-progress" class="h-full bg-white transition-all duration-1000" style="width: 100%"></div>
      </div>
-    </div><!-- Konten Soal - Layout Responsif -->
+    </div>
     <div class="flex-1 overflow-auto bg-gray-50">
-     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 sm:space-y-8"><!-- Urutan Asli -->
+     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 sm:space-y-8">
       <div class="bg-gradient-to-br from-blue-50 to-blue-100 border-3 border-blue-400 rounded-xl p-4 sm:p-6 shadow-md mt-4">
        <div id="original-sequence" class="text-2xl sm:text-4xl md:text-5xl font-bold text-blue-900 text-center tracking-[0.5em] sm:tracking-[1em] md:tracking-[2em] break-all leading-relaxed"></div>
-      </div><!-- Soal -->
+      </div>
       <div class="bg-white border-3 border-gray-400 rounded-xl p-4 sm:p-6 shadow-lg">
        <div id="question-display" class="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 text-center tracking-[0.5em] sm:tracking-[1em] md:tracking-[2em] break-all leading-relaxed"></div>
-      </div><!-- Pilihan Jawaban -->
+      </div>
       <div class="bg-gradient-to-br from-gray-50 to-gray-100 border-3 border-gray-300 rounded-xl p-4 sm:p-6 shadow-md mb-6">
        <div id="answer-options" class="grid grid-cols-5 gap-2 sm:gap-3 max-w-2xl mx-auto"></div>
       </div>
      </div>
     </div>
-   </div><!-- Column Break Screen -->
+   </div>
+   
    <div id="column-break" class="h-full flex flex-col items-center justify-center hidden">
     <div class="text-center fade-in">
      <p class="text-2xl text-gray-600 mb-4">Kolom <span id="break-column-number">1</span> Selesai</p>
@@ -355,7 +362,8 @@
       3
      </div>
     </div>
-   </div><!-- Test Result Screen -->
+   </div>
+   
    <div id="test-result" class="h-full flex flex-col hidden">
     <header class="bg-white shadow-sm px-6 py-4">
      <h1 class="text-xl font-bold text-gray-800 text-center">Hasil Tes Kecermatan</h1>
@@ -457,22 +465,25 @@
       </div><button onclick="backToStudentDashboard()" class="w-full btn-primary text-white py-4 rounded-xl font-semibold text-lg mt-6"> Kembali ke Dashboard </button>
      </div>
     </div>
-   </div><!-- Result Detail Modal -->
+   </div>
+   
    <div id="result-detail-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
     <div class="card p-6 max-w-4xl w-full max-h-[90%] overflow-auto fade-in">
      <div class="flex items-center justify-between mb-4">
       <h3 class="text-xl font-bold">Detail Hasil Ujian</h3><button onclick="closeResultDetail()" class="text-gray-400 hover:text-gray-600">
-       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
        </svg></button>
      </div>
      <div id="result-detail-content"></div>
     </div>
-   </div><!-- Toast Notification -->
+   </div>
+   
    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
     <div class="card px-6 py-4 flex items-center gap-3 shadow-lg"><span id="toast-icon"></span>
      <p id="toast-message" class="font-medium"></p>
     </div>
-   </div><!-- Confirmation Modal -->
+   </div>
+   
    <div id="confirm-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
     <div class="card p-6 max-w-sm w-full fade-in">
      <h3 id="confirm-title" class="text-lg font-bold mb-2"></h3>
@@ -482,6 +493,7 @@
     </div>
    </div>
   </div>
+  
   <script>
     // ========== Global State ==========
     let appData = {
@@ -490,7 +502,7 @@
       trash: [],
       results: [],
       activities: [],
-      adminPassword: '1234',
+      adminPassword: '1234', // Default password
       adminEmail: ''
     };
     
@@ -501,86 +513,37 @@
     let confirmCallback = null;
     let columnInputData = Array(10).fill(null).map(() => []);
     
-    const defaultConfig = {
-      app_title: 'Tes Kecermatan Polri'
-    };
-    
     const availableSymbols = [
-      // Mathematical symbols
-      '±', '×', '÷', '√', '∞', '≈', '≠', '≤', '≥', '∑', '∏', '∫', '∂', '∇', '∆', '∇',
-      // Greek letters
-      'α', 'β', 'γ', 'δ', '  ', 'θ', 'λ', 'μ', 'π', 'σ', 'φ', 'ψ', 'ω', 'Δ', 'Σ', 'Ω', 'Φ', 'Π',
-      // Geometric shapes
-      '★', '☆', '   ', '○', '■', '□', '▲', '△', '▼', '▽', '◆', '◇', '◈', '⬟', '⬡', '⬢', '⬣', '◉', '      ', '◯',
-      // Arrows
-      '   ', '←', '↑', '↓', '↔', '↕', '⇒', '⇐', '⇑', '⇓', '⇔', '⇕', '↗', '↘', '↖', '↙',
-      // Card suits
+      '±', '×', '÷', '√', '∞', '≈', '≠', '≤', '≥', '∑', '∏', '∫', '∂', '∇', '∆',
+      'α', 'β', 'γ', 'δ', 'θ', 'λ', 'μ', 'π', 'σ', 'φ', 'ψ', 'ω', 'Δ', 'Σ', 'Ω', 'Φ', 'Π',
+      '★', '☆', '○', '■', '□', '▲', '△', '▼', '▽', '◆', '◇', '◈', '⬟', '⬡', '⬢', '⬣', '◉', '◯',
+      '←', '↑', '↓', '↔', '↕', '⇒', '⇐', '⇑', '⇓', '⇔', '⇕', '↗', '↘', '↖', '↙',
       '♠', '♣', '♥', '♦', '♤', '♧', '♡', '♢',
-      // Stars and crosses
-      '✦', '✧', '✪', '✫', '✬', '✭', '✮', '✯', '✰', '✱', '✚', '✖', '✗', '✘', '※', '   ',
-      // Circles and dots
-      '⊕', '⊗', '⊙', '⊚', '⊛', '⊜', '⊝', '⊡', '  ', '⊞',
-      // Scientific
-      '℃', '℉', 'Å', '℧', '℮', 'ℓ', '  ', '   ', '®', '©', '™', '℀', '℁', '℅', '℆',
-      // Currency
+      '✦', '✧', '✪', '✫', '✬', '✭', '✮', '✯', '✰', '✱', '✚', '✖', '✗', '✘', '※',
+      '⊕', '⊗', '⊙', '⊚', '⊛', '⊜', '⊝', '⊡', '⊞',
+      '℃', '℉', 'Å', '℧', '℮', 'ℓ', '®', '©', '™', '℀', '℁', '℅', '℆',
       '€', '£', '¥', '₹', '₽', '₩', '฿', '₪', '₫', '₱', '₡', '₢', '₣', '₤', '₥', '₦',
-      // Misc
-      '§', '¶', '†', '‡', '‰', '‱', '⌘', '⌥', '⏎', '⌫', '⌦', '  ', '   ', '〒', '〠', '〶'
+      '§', '¶', '†', '‡', '‰', '‱', '⌘', '⌥', '⏎', '⌫', '⌦', '〒', '〠', '〶'
     ];
     
-    // ========== Data SDK Handler ==========
-    const dataHandler = {
-      onDataChanged(data) {
-        if (!data || data.length === 0) {
-          appData = { students: [], packages: [], trash: [], results: [], activities: [], adminPassword: '1234', adminEmail: '' };
-        } else {
-          data.forEach(record => {
-            if (record.type === 'app_data') {
-              try {
-                const parsed = JSON.parse(record.data);
-                appData = { ...appData, ...parsed };
-              } catch (e) {
-                console.error('Parse error:', e);
-              }
-            }
-          });
-        }
-        updateAllViews();
-      }
-    };
-    
-    // ========== Initialize ==========
-    async function initApp() {
+    // ========== Initialize using LocalStorage ==========
+    function initApp() {
       try {
-        if (window.dataSdk) {
-          const result = await window.dataSdk.init(dataHandler);
-          if (!result.isOk) {
-            console.error('Data SDK init failed');
+        const savedData = localStorage.getItem('tes_kecermatan_data');
+        if (savedData) {
+          try {
+            const parsed = JSON.parse(savedData);
+            appData = { ...appData, ...parsed };
+          } catch (e) {
+            console.error('Parse error:', e);
           }
-        }
-        
-        if (window.elementSdk) {
-          window.elementSdk.init({
-            defaultConfig,
-            onConfigChange: async (config) => {
-              document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
-            },
-            mapToCapabilities: (config) => ({
-              recolorables: [],
-              borderables: [],
-              fontEditable: undefined,
-              fontSizeable: undefined
-            }),
-            mapToEditPanelValues: (config) => new Map([
-              ['app_title', config.app_title || defaultConfig.app_title]
-            ])
-          });
         }
         
         document.getElementById('loading-screen').classList.add('hidden');
         document.getElementById('main-menu').classList.remove('hidden');
         
         initColumnInputs();
+        updateAllViews();
       } catch (error) {
         console.error('Init error:', error);
         document.getElementById('loading-screen').classList.add('hidden');
@@ -588,47 +551,12 @@
       }
     }
     
-    async function saveAppData() {
-      if (!window.dataSdk) return;
-      
+    function saveAppData() {
       try {
-        const existingData = await findExistingRecord();
-        const dataString = JSON.stringify(appData);
-        
-        if (existingData) {
-          existingData.data = dataString;
-          existingData.updated_at = new Date().toISOString();
-          await window.dataSdk.update(existingData);
-        } else {
-          await window.dataSdk.create({
-            type: 'app_data',
-            data: dataString,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          });
-        }
+        localStorage.setItem('tes_kecermatan_data', JSON.stringify(appData));
       } catch (error) {
         console.error('Save error:', error);
       }
-    }
-    
-    async function findExistingRecord() {
-      return new Promise(resolve => {
-        let found = null;
-        const tempHandler = {
-          onDataChanged(data) {
-            found = data.find(r => r.type === 'app_data');
-            resolve(found);
-          }
-        };
-        if (window.dataSdk) {
-          window.dataSdk.init(tempHandler).then(() => {
-            setTimeout(() => resolve(found), 100);
-          });
-        } else {
-          resolve(null);
-        }
-      });
     }
     
     // ========== UI Navigation ==========
@@ -1346,7 +1274,6 @@
       }
       
       container.innerHTML = activePackages.map(pkg => {
-        // Cek apakah siswa sudah mengerjakan paket ini
         const hasCompleted = appData.results.some(r => 
           r.studentId === currentStudent.id && r.packageId === pkg.id
         );
@@ -1408,7 +1335,6 @@
       const pkg = appData.packages.find(p => p.id === packageId);
       if (!pkg) return;
       
-      // Cek apakah siswa sudah pernah mengerjakan paket ini
       const hasCompleted = appData.results.some(r => 
         r.studentId === currentStudent.id && r.packageId === packageId
       );
@@ -1443,32 +1369,25 @@
       const numQuestions = 100;
       
       for (let i = 0; i < numQuestions; i++) {
-        // Pilih indeks yang akan disembunyikan (0-4)
         const hiddenIndex = Math.floor(Math.random() * 5);
-        
-        // Buat array yang diacak untuk ditampilkan
         const shuffledItems = shuffleArray([...columnItems]);
-        
-        // Buat tampilan 4 item (yang tidak disembunyikan)
         const displayItems = [];
+        
         for (let j = 0; j < 5; j++) {
           if (j !== hiddenIndex) {
             displayItems.push(shuffledItems[j]);
           }
         }
         
-        // Jawaban benar adalah item yang disembunyikan dari urutan yang diacak
         const correctAnswer = shuffledItems[hiddenIndex];
-        
-        // Cari indeks jawaban benar di urutan ASLI (columnItems)
         const correctAnswerIndexInOriginal = columnItems.indexOf(correctAnswer);
         
         questions.push({
-          originalSequence: columnItems.join('  '),  // Urutan asli dari admin
-          display: displayItems.join('  '),          // 4 item yang diacak
-          correctAnswer: correctAnswer,              // Item yang hilang
-          correctAnswerIndex: correctAnswerIndexInOriginal,  // Indeks di urutan asli (untuk label A-E)
-          options: columnItems,                      // Opsi tetap urutan asli
+          originalSequence: columnItems.join('  '), 
+          display: displayItems.join('  '),         
+          correctAnswer: correctAnswer,             
+          correctAnswerIndex: correctAnswerIndexInOriginal, 
+          options: columnItems,                     
           hiddenIndex: hiddenIndex
         });
       }
@@ -1515,17 +1434,12 @@
       const question = currentTest.columnResults[col].questions[q];
       
       document.getElementById('current-column').textContent = `${col + 1}/10`;
-      
-      // Tampilkan urutan asli dari admin
       document.getElementById('original-sequence').textContent = question.originalSequence;
-      
-      // Tampilkan soal yang sudah diacak (4 item)
       document.getElementById('question-display').textContent = question.display;
       
       const optionsContainer = document.getElementById('answer-options');
       const labels = ['A', 'B', 'C', 'D', 'E'];
       
-      // Tampilkan pilihan ganda A-E saja
       optionsContainer.innerHTML = question.options.map((opt, idx) => `
         <button onclick="selectAnswer('${opt}', ${idx})" class="answer-btn bg-white border-3 border-gray-500 rounded-xl hover:bg-blue-100 focus:outline-none focus:ring-4 focus:ring-blue-400 transition-all">
           <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800">${labels[idx]}</div>
@@ -1629,8 +1543,6 @@
       
       const totalQuestions = totalCorrect + totalWrong + totalUnanswered;
       const score = Math.round((totalCorrect / totalQuestions) * 100);
-      
-      // Hitung metrik untuk grafik
       const metrics = calculatePerformanceMetrics(currentTest.columnResults);
       
       const result = {
@@ -1682,9 +1594,7 @@
         `;
       }).join('');
       
-      // Gambar grafik
       drawPerformanceChart(metrics);
-      
       document.getElementById('result-analysis').innerHTML = generateAnalysis(result);
     }
     
@@ -1698,19 +1608,15 @@
         const total = col.correct + col.wrong + col.unanswered;
         const answered = col.correct + col.wrong;
         
-        // Kecepatan: persentase soal yang dijawab (bukan kosong)
         const speed = total > 0 ? (answered / total) * 100 : 0;
         speedData.push(speed);
         
-        // Ketelitian: persentase jawaban benar dari yang dijawab
         const accuracy = answered > 0 ? (col.correct / answered) * 100 : 0;
         accuracyData.push(accuracy);
         
-        // Ketahanan: skor menurun dari kolom awal ke akhir (simulasi stamina)
         const colScore = total > 0 ? (col.correct / total) * 100 : 0;
         enduranceData.push(colScore);
         
-        // Keajengan: konsistensi kecepatan (variance dari rata-rata)
         if (idx > 0) {
           const avgSpeed = speedData.slice(0, idx + 1).reduce((a, b) => a + b, 0) / (idx + 1);
           const variance = 100 - Math.abs(speed - avgSpeed);
@@ -1740,23 +1646,18 @@
       const width = canvas.width;
       const height = canvas.height;
       
-      // Clear canvas
       ctx.clearRect(0, 0, width, height);
       
-      // Padding
       const padding = { top: 40, right: 40, bottom: 60, left: 60 };
       const chartWidth = width - padding.left - padding.right;
       const chartHeight = height - padding.top - padding.bottom;
       
-      // Background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, width, height);
       
-      // Grid lines
       ctx.strokeStyle = '#e5e7eb';
       ctx.lineWidth = 1;
       
-      // Horizontal grid
       for (let i = 0; i <= 10; i++) {
         const y = padding.top + (chartHeight / 10) * i;
         ctx.beginPath();
@@ -1764,14 +1665,12 @@
         ctx.lineTo(padding.left + chartWidth, y);
         ctx.stroke();
         
-        // Y-axis labels
         ctx.fillStyle = '#6b7280';
         ctx.font = '12px Poppins';
         ctx.textAlign = 'right';
         ctx.fillText(`${100 - i * 10}`, padding.left - 10, y + 4);
       }
       
-      // Vertical grid
       for (let i = 0; i <= 10; i++) {
         const x = padding.left + (chartWidth / 10) * i;
         ctx.beginPath();
@@ -1779,14 +1678,12 @@
         ctx.lineTo(x, padding.top + chartHeight);
         ctx.stroke();
         
-        // X-axis labels
         ctx.fillStyle = '#6b7280';
         ctx.font = '12px Poppins';
         ctx.textAlign = 'center';
         ctx.fillText(`${i + 1}`, x, padding.top + chartHeight + 20);
       }
       
-      // Axis labels
       ctx.fillStyle = '#374151';
       ctx.font = 'bold 14px Poppins';
       ctx.textAlign = 'center';
@@ -1798,7 +1695,6 @@
       ctx.fillText('Nilai (%)', 0, 0);
       ctx.restore();
       
-      // Draw lines
       const datasets = [
         { data: metrics.speed, color: '#3b82f6', label: 'Kecepatan' },
         { data: metrics.accuracy, color: '#10b981', label: 'Ketelitian' },
@@ -1824,7 +1720,6 @@
         
         ctx.stroke();
         
-        // Draw points
         ctx.fillStyle = dataset.color;
         dataset.data.forEach((value, idx) => {
           const x = padding.left + (chartWidth / 10) * idx + (chartWidth / 20);
@@ -1839,10 +1734,8 @@
     
     function generateAnalysis(result) {
       const { score, totalCorrect, totalWrong, totalUnanswered, columnResults, metrics } = result;
-      
       let analysis = [];
       
-      // Analisis Nilai Akhir
       if (score >= 90) {
         analysis.push({ type: 'success', icon: '🏆', title: 'Nilai Akhir: Sangat Baik', text: 'Tingkat kecermatan Anda sangat baik. Anda mampu mengenali pola dengan cepat dan akurat.' });
       } else if (score >= 75) {
@@ -1853,17 +1746,15 @@
         analysis.push({ type: 'danger', icon: '📉', title: 'Nilai Akhir: Perlu Peningkatan', text: 'Tingkat kecermatan perlu ditingkatkan. Fokus pada latihan pengenalan pola dan kecepatan.' });
       }
       
-      // Analisis Kecepatan
       const avgSpeed = metrics.avgSpeed;
       if (avgSpeed >= 80) {
-        analysis.push({ type: 'success', icon: '   ', title: 'Kecepatan: Sangat Tinggi', text: `Kecepatan pengerjaan sangat baik (${Math.round(avgSpeed)}%). Anda mampu menjawab dengan cepat.` });
+        analysis.push({ type: 'success', icon: '⚡', title: 'Kecepatan: Sangat Tinggi', text: `Kecepatan pengerjaan sangat baik (${Math.round(avgSpeed)}%). Anda mampu menjawab dengan cepat.` });
       } else if (avgSpeed >= 60) {
         analysis.push({ type: 'info', icon: '⏱️', title: 'Kecepatan: Baik', text: `Kecepatan pengerjaan cukup baik (${Math.round(avgSpeed)}%). Pertahankan tempo ini.` });
       } else {
         analysis.push({ type: 'warning', icon: '🐢', title: 'Kecepatan: Perlu Ditingkatkan', text: `Kecepatan pengerjaan perlu ditingkatkan (${Math.round(avgSpeed)}%). Latih kecepatan respon Anda.` });
       }
       
-      // Analisis Ketelitian (Accuracy)
       const avgAccuracy = metrics.avgAccuracy;
       if (avgAccuracy >= 90) {
         analysis.push({ type: 'success', icon: '🎯', title: 'Ketelitian: Sangat Tinggi', text: `Tingkat akurasi sangat tinggi (${Math.round(avgAccuracy)}%). Sangat teliti dalam menjawab.` });
@@ -1875,7 +1766,6 @@
         analysis.push({ type: 'danger', icon: '❌', title: 'Ketelitian: Perlu Peningkatan', text: `Tingkat akurasi perlu ditingkatkan (${Math.round(avgAccuracy)}%). Jangan terburu-buru dalam menjawab.` });
       }
       
-      // Analisis Ketahanan (Endurance)
       const avgEndurance = metrics.avgEndurance;
       const firstHalf = metrics.endurance.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
       const secondHalf = metrics.endurance.slice(5).reduce((a, b) => a + b, 0) / 5;
@@ -1889,7 +1779,6 @@
         analysis.push({ type: 'warning', icon: '😓', title: 'Ketahanan: Perlu Ditingkatkan', text: `Ketahanan mental perlu ditingkatkan. Performa menurun signifikan di akhir (${Math.round(enduranceDrop)}%). Latih stamina mental Anda.` });
       }
       
-      // Analisis Keajengan (Consistency)
       const avgConsistency = metrics.avgConsistency;
       if (avgConsistency >= 85) {
         analysis.push({ type: 'success', icon: '📊', title: 'Keajengan: Sangat Konsisten', text: `Performa sangat konsisten di semua kolom (${Math.round(avgConsistency)}%). Tidak ada variasi signifikan.` });
@@ -1905,7 +1794,6 @@
         analysis.push({ type: 'warning', icon: '📉', title: 'Keajengan: Tidak Konsisten', text: `Performa tidak konsisten (${Math.round(avgConsistency)}%). Kolom ${weakestCol} menunjukkan hasil terendah. Latih fokus dan konsentrasi.` });
       }
       
-      // Kesimpulan dan Rekomendasi
       let recommendation = '';
       if (score >= 90 && avgSpeed >= 80 && avgAccuracy >= 90 && avgConsistency >= 85) {
         recommendation = 'Performa Anda sudah sangat baik di semua aspek. Pertahankan dan tingkatkan terus kemampuan Anda.';
@@ -1923,7 +1811,7 @@
       
       analysis.push({ 
         type: 'info', 
-        icon: '  ', 
+        icon: '💡', 
         title: 'Rekomendasi', 
         text: recommendation 
       });
@@ -2088,7 +1976,6 @@
       
       document.getElementById('result-detail-content').innerHTML = content;
       
-      // Draw chart jika ada metrics
       if (result.metrics) {
         setTimeout(() => {
           const canvas = document.getElementById('modal-performance-chart');
@@ -2211,5 +2098,5 @@
     
     initApp();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1081695461afdc7',t:'MTc4MjI2NTg5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
