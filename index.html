@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tes Kecermatan Polri</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -100,11 +105,13 @@
       </div>
       <h1 id="app-title" class="text-5xl md:text-6xl font-extrabold text-white mb-3 tracking-tight">Tes Kecermatan Polri</h1>
      </div>
-     <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto"><button onclick="showPanel('student-login')" class="group relative overflow-hidden bg-white hover:bg-gray-50 text-blue-700 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
+     <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+       <button onclick="showPanel('student-login')" class="group relative overflow-hidden bg-white hover:bg-gray-50 text-blue-700 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
        <div class="flex items-center justify-center gap-3">
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg><span>Siswa</span>
-       </div></button> <button onclick="showPanel('admin-login')" class="group relative overflow-hidden bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-2 border-white/30 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
+       </div></button> 
+       <button onclick="showPanel('admin-login')" class="group relative overflow-hidden bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-2 border-white/30 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
        <div class="flex items-center justify-center gap-3">
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg><span>Admin</span>
@@ -166,8 +173,15 @@
       </svg> Keluar </button>
     </header>
     <div class="flex-1 overflow-auto p-6">
-     <div class="flex flex-wrap gap-2 mb-6"><button onclick="showAdminTab('students')" class="tab-btn active" id="tab-students">Kelola Siswa</button> <button onclick="showAdminTab('questions')" class="tab-btn" id="tab-questions">Kelola Soal</button> <button onclick="showAdminTab('monitoring')" class="tab-btn" id="tab-monitoring">Monitoring</button> <button onclick="showAdminTab('results')" class="tab-btn" id="tab-results">Hasil Ujian</button> <button onclick="showAdminTab('trash')" class="tab-btn" id="tab-trash">Sampah</button> <button onclick="showAdminTab('settings')" class="tab-btn" id="tab-settings">Pengaturan</button>
+     <div class="flex flex-wrap gap-2 mb-6">
+       <button onclick="showAdminTab('students')" class="tab-btn active" id="tab-students">Kelola Siswa</button> 
+       <button onclick="showAdminTab('questions')" class="tab-btn" id="tab-questions">Kelola Soal</button> 
+       <button onclick="showAdminTab('monitoring')" class="tab-btn" id="tab-monitoring">Monitoring</button> 
+       <button onclick="showAdminTab('results')" class="tab-btn" id="tab-results">Hasil Ujian</button> 
+       <button onclick="showAdminTab('trash')" class="tab-btn" id="tab-trash">Sampah</button> 
+       <button onclick="showAdminTab('settings')" class="tab-btn" id="tab-settings">Pengaturan</button>
      </div>
+     
      <div id="admin-students" class="fade-in">
       <div class="card p-6 mb-6">
        <h3 class="text-lg font-bold mb-4">Buat Akun Siswa Baru</h3>
@@ -181,6 +195,7 @@
        </div>
       </div>
      </div>
+     
      <div id="admin-questions" class="hidden fade-in">
       <div class="card p-6 mb-6">
        <h3 class="text-2xl font-bold mb-2">🎯 Buat Paket Soal Baru</h3>
@@ -194,9 +209,7 @@
         </div>
         <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 p-5 rounded-xl">
          <div class="flex items-start gap-3">
-          <div class="text-3xl">
-           💡
-          </div>
+          <div class="text-3xl">💡</div>
           <div>
            <p class="font-semibold text-blue-900 mb-2">Cara Mengisi:</p>
            <ul class="text-sm text-blue-800 space-y-1">
@@ -219,6 +232,7 @@
        </div>
       </div>
      </div>
+     
      <div id="admin-monitoring" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Aktivitas Siswa</h3>
@@ -227,6 +241,7 @@
        </div>
       </div>
      </div>
+     
      <div id="admin-results" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Hasil Ujian Siswa</h3>
@@ -235,6 +250,7 @@
        </div>
       </div>
      </div>
+     
      <div id="admin-trash" class="hidden fade-in">
       <div class="card p-6">
        <div class="flex items-center justify-between mb-4">
@@ -245,6 +261,7 @@
        </div>
       </div>
      </div>
+     
      <div id="admin-settings" class="hidden fade-in">
       <div class="card p-6">
        <h3 class="text-lg font-bold mb-4">Ganti Password Admin</h3>
@@ -502,7 +519,7 @@
       trash: [],
       results: [],
       activities: [],
-      adminPassword: '1234', // Default password
+      adminPassword: '1234', // Default password admin
       adminEmail: ''
     };
     
@@ -525,37 +542,62 @@
       '€', '£', '¥', '₹', '₽', '₩', '฿', '₪', '₫', '₱', '₡', '₢', '₣', '₤', '₥', '₦',
       '§', '¶', '†', '‡', '‰', '‱', '⌘', '⌥', '⏎', '⌫', '⌦', '〒', '〠', '〶'
     ];
+
+    // ==========================================================================
+    // INTEGRASI FIREBASE REALTIME DATABASE - TES KECERMATAN POLRI
+    // ==========================================================================
     
-    // ========== Initialize using LocalStorage ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCIIY2L-VCNg6FLW8rl9DYrGjpWyCvRkeE",
+      authDomain: "ilham-b5ccb.firebaseapp.com",
+      // URL database otomatis dihasilkan berdasar projectId Anda:
+      databaseURL: "https://ilham-b5ccb-default-rtdb.firebaseio.com", 
+      projectId: "ilham-b5ccb",
+      storageBucket: "ilham-b5ccb.firebasestorage.app",
+      messagingSenderId: "318480343423",
+      appId: "1:318480343423:web:5add91ddd56e16a0e37a4a"
+    };
+
+    // Inisialisasi Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // ========== Inisialisasi & Ambil Data dari Firebase ==========
     function initApp() {
       try {
-        const savedData = localStorage.getItem('tes_kecermatan_data');
-        if (savedData) {
-          try {
-            const parsed = JSON.parse(savedData);
-            appData = { ...appData, ...parsed };
-          } catch (e) {
-            console.error('Parse error:', e);
+        // Mendengarkan dan menarik data dari Firebase secara Real-time
+        database.ref('app_data').on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            // Update objek lokal dengan data terbaru dari Firebase
+            appData = data;
+          } else {
+            // Jika database cloud kosong, lakukan inisialisasi awal
+            database.ref('app_data').set(appData);
           }
-        }
-        
+          
+          updateAllViews();
+        });
+
+        // Hapus layar loading
         document.getElementById('loading-screen').classList.add('hidden');
         document.getElementById('main-menu').classList.remove('hidden');
         
         initColumnInputs();
-        updateAllViews();
       } catch (error) {
-        console.error('Init error:', error);
+        console.error('Error saat inisialisasi Firebase:', error);
         document.getElementById('loading-screen').classList.add('hidden');
         document.getElementById('main-menu').classList.remove('hidden');
       }
     }
-    
-    function saveAppData() {
+
+    // ========== Fungsi Push Data ke Firebase ==========
+    async function saveAppData() {
       try {
-        localStorage.setItem('tes_kecermatan_data', JSON.stringify(appData));
+        await database.ref('app_data').set(appData);
+        console.log("Data berhasil disinkronkan ke Firebase.");
       } catch (error) {
-        console.error('Save error:', error);
+        console.error('Gagal menyimpan data ke Firebase:', error);
       }
     }
     
@@ -729,10 +771,12 @@
         return;
       }
       
-      if (appData.students.find(s => s.username === username)) {
+      if (appData.students && appData.students.find(s => s.username === username)) {
         showToast('Username sudah digunakan', 'error');
         return;
       }
+      
+      if (!appData.students) appData.students = [];
       
       appData.students.push({
         id: Date.now().toString(),
@@ -746,7 +790,6 @@
       document.getElementById('new-student-username').value = '';
       document.getElementById('new-student-password').value = '';
       showToast('Akun siswa berhasil dibuat');
-      renderStudentsList();
     }
     
     function toggleStudentStatus(studentId) {
@@ -754,7 +797,6 @@
       if (student) {
         student.active = !student.active;
         saveAppData();
-        renderStudentsList();
       }
     }
     
@@ -762,7 +804,6 @@
       showConfirm('Hapus Akun', 'Apakah Anda yakin ingin menghapus akun siswa ini?', () => {
         appData.students = appData.students.filter(s => s.id !== studentId);
         saveAppData();
-        renderStudentsList();
         showToast('Akun siswa berhasil dihapus');
       });
     }
@@ -770,7 +811,7 @@
     function renderStudentsList() {
       const container = document.getElementById('students-list');
       
-      if (appData.students.length === 0) {
+      if (!appData.students || appData.students.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada akun siswa</p>';
         return;
       }
@@ -1026,6 +1067,8 @@
         columns.push(items);
       }
       
+      if (!appData.packages) appData.packages = [];
+      
       const pkg = {
         id: Date.now().toString(),
         name: packageName,
@@ -1043,7 +1086,6 @@
       initColumnInputs();
       
       showToast('Paket soal berhasil disimpan');
-      renderPackagesList();
     }
     
     function togglePackageStatus(packageId) {
@@ -1051,7 +1093,6 @@
       if (pkg) {
         pkg.active = !pkg.active;
         saveAppData();
-        renderPackagesList();
       }
     }
     
@@ -1059,11 +1100,10 @@
       showConfirm('Hapus Paket', 'Paket akan dipindahkan ke sampah. Lanjutkan?', () => {
         const pkg = appData.packages.find(p => p.id === packageId);
         if (pkg) {
+          if (!appData.trash) appData.trash = [];
           appData.trash.push({ ...pkg, deletedAt: new Date().toISOString() });
           appData.packages = appData.packages.filter(p => p.id !== packageId);
           saveAppData();
-          renderPackagesList();
-          renderTrashList();
           showToast('Paket dipindahkan ke sampah');
         }
       });
@@ -1072,7 +1112,7 @@
     function renderPackagesList() {
       const container = document.getElementById('packages-list');
       
-      if (appData.packages.length === 0) {
+      if (!appData.packages || appData.packages.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada paket soal</p>';
         return;
       }
@@ -1115,7 +1155,7 @@
     function renderTrashList() {
       const container = document.getElementById('trash-list');
       
-      if (appData.trash.length === 0) {
+      if (!appData.trash || appData.trash.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-8">Sampah kosong</p>';
         return;
       }
@@ -1138,11 +1178,10 @@
       const pkg = appData.trash.find(p => p.id === packageId);
       if (pkg) {
         delete pkg.deletedAt;
+        if (!appData.packages) appData.packages = [];
         appData.packages.push(pkg);
         appData.trash = appData.trash.filter(p => p.id !== packageId);
         saveAppData();
-        renderPackagesList();
-        renderTrashList();
         showToast('Paket berhasil dipulihkan');
       }
     }
@@ -1151,13 +1190,12 @@
       showConfirm('Hapus Permanen', 'Paket akan dihapus permanen dan tidak dapat dipulihkan. Lanjutkan?', () => {
         appData.trash = appData.trash.filter(p => p.id !== packageId);
         saveAppData();
-        renderTrashList();
         showToast('Paket berhasil dihapus permanen');
       });
     }
     
     function emptyTrash() {
-      if (appData.trash.length === 0) {
+      if (!appData.trash || appData.trash.length === 0) {
         showToast('Sampah sudah kosong', 'error');
         return;
       }
@@ -1165,13 +1203,13 @@
       showConfirm('Kosongkan Sampah', 'Semua paket di sampah akan dihapus permanen. Lanjutkan?', () => {
         appData.trash = [];
         saveAppData();
-        renderTrashList();
         showToast('Sampah berhasil dikosongkan');
       });
     }
     
     // ========== Monitoring ==========
     function updateActivity(studentId, activity) {
+      if (!appData.activities) appData.activities = [];
       const existingIndex = appData.activities.findIndex(a => a.studentId === studentId);
       const student = appData.students.find(s => s.id === studentId);
       
@@ -1192,6 +1230,7 @@
     }
     
     function removeActivity(studentId) {
+      if (!appData.activities) return;
       appData.activities = appData.activities.filter(a => a.studentId !== studentId);
       saveAppData();
     }
@@ -1199,6 +1238,7 @@
     function renderMonitoring() {
       const container = document.getElementById('monitoring-list');
       
+      if (!appData.activities) appData.activities = [];
       const activeActivities = appData.activities.filter(a => {
         const timeDiff = Date.now() - new Date(a.timestamp).getTime();
         return timeDiff < 300000;
@@ -1229,6 +1269,7 @@
       const password = document.getElementById('student-password').value;
       const errorEl = document.getElementById('student-login-error');
       
+      if (!appData.students) appData.students = [];
       const student = appData.students.find(s => s.username === username && s.password === password);
       
       if (!student) {
@@ -1251,8 +1292,7 @@
       
       updateActivity(student.id, 'Online - Dashboard');
       showPanel('student-dashboard');
-      renderStudentPackages();
-      renderStudentResults();
+      updateAllViews();
     }
     
     function studentLogout() {
@@ -1266,6 +1306,7 @@
     
     function renderStudentPackages() {
       const container = document.getElementById('student-packages-list');
+      if (!appData.packages) appData.packages = [];
       const activePackages = appData.packages.filter(p => p.active);
       
       if (activePackages.length === 0) {
@@ -1273,6 +1314,7 @@
         return;
       }
       
+      if (!appData.results) appData.results = [];
       container.innerHTML = activePackages.map(pkg => {
         const hasCompleted = appData.results.some(r => 
           r.studentId === currentStudent.id && r.packageId === pkg.id
@@ -1305,6 +1347,7 @@
       const container = document.getElementById('student-results-list');
       
       if (!currentStudent) return;
+      if (!appData.results) appData.results = [];
       
       const studentResults = appData.results.filter(r => r.studentId === currentStudent.id);
       
@@ -1335,6 +1378,7 @@
       const pkg = appData.packages.find(p => p.id === packageId);
       if (!pkg) return;
       
+      if (!appData.results) appData.results = [];
       const hasCompleted = appData.results.some(r => 
         r.studentId === currentStudent.id && r.packageId === packageId
       );
@@ -1383,10 +1427,10 @@
         const correctAnswerIndexInOriginal = columnItems.indexOf(correctAnswer);
         
         questions.push({
-          originalSequence: columnItems.join('  '), 
+          originalSequence: columnItems.join('  '),
           display: displayItems.join('  '),         
           correctAnswer: correctAnswer,             
-          correctAnswerIndex: correctAnswerIndexInOriginal, 
+          correctAnswerIndex: correctAnswerIndexInOriginal,
           options: columnItems,                     
           hiddenIndex: hiddenIndex
         });
@@ -1565,6 +1609,7 @@
         completedAt: new Date().toISOString()
       };
       
+      if (!appData.results) appData.results = [];
       appData.results.push(result);
       saveAppData();
       
@@ -1868,7 +1913,7 @@
     function renderAdminResults() {
       const container = document.getElementById('results-list');
       
-      if (appData.results.length === 0) {
+      if (!appData.results || appData.results.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>';
         return;
       }
@@ -2096,6 +2141,7 @@
       }
     }
     
+    // Jalankan inisiasi Firebase di awal load
     initApp();
   </script>
 </body>
