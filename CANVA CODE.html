@@ -1,0 +1,2215 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tes Kecermatan Polri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    .btn-primary { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+    .btn-primary:hover { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+    .btn-danger { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
+    .btn-success { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .answer-btn { 
+      transition: all 0.15s ease; 
+      transform: scale(1);
+      min-width: 50px;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 640px) {
+      .answer-btn {
+        min-width: 70px;
+        min-height: 70px;
+      }
+    }
+    @media (min-width: 768px) {
+      .answer-btn {
+        min-width: 90px;
+        min-height: 90px;
+      }
+    }
+    .answer-btn:hover { 
+      transform: scale(1.08); 
+      background: #dbeafe !important; 
+      border-color: #3b82f6 !important; 
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+    }
+    .answer-btn:active { 
+      transform: scale(0.95); 
+      background: #bfdbfe !important;
+    }
+    .question-display { font-size: 3rem; font-weight: 700; letter-spacing: 1.5rem; line-height: 1.2; }
+    .timer-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .pulse { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .modal-overlay { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+    .status-online { background: #22c55e; animation: blink 2s infinite; }
+    .status-offline { background: #ef4444; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .progress-bar { height: 8px; border-radius: 4px; background: #e5e7eb; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #1e40af); transition: width 0.3s; }
+    .symbol-btn { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 1.5rem; background: white; }
+    .symbol-btn:hover { border-color: #3b82f6; background: #eff6ff; transform: scale(1.05); }
+    .symbol-btn.selected { border-color: #3b82f6; background: #3b82f6; color: white; transform: scale(1.1); }
+    .symbol-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+    .tab-btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+    .tab-btn.active { background: #3b82f6; color: white; }
+    .tab-btn:not(.active) { background: #f3f4f6; color: #6b7280; }
+    .input-field { border: 2px solid #e5e7eb; border-radius: 10px; padding: 12px 16px; transition: all 0.2s; }
+    .input-field:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    .input-field.error { border-color: #ef4444; background: #fef2f2; }
+    .question-item { font-size: 1.8rem; font-weight: 600; letter-spacing: 0.5rem; }
+    .number-input, .letter-input { width: 80px; height: 80px; text-align: center; font-size: 2rem; font-weight: 700; border: 3px solid #e5e7eb; border-radius: 12px; transition: all 0.2s; }
+    .number-input:focus, .letter-input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 4px rgba(59,130,246,0.1); transform: scale(1.05); }
+    .number-input.filled, .letter-input.filled { border-color: #10b981; background: #f0fdf4; }
+    .column-card { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem; border: 2px solid #e5e7eb; }
+    .column-header { background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; padding: 1rem 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; }
+    .soal-counter { position: fixed; bottom: 20px; right: 20px; background: white; padding: 12px 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-weight: 600; z-index: 100; }
+    .item-box { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    .item-label { font-size: 0.875rem; font-weight: 600; color: #6b7280; }
+    .symbol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 0.5rem; max-height: 300px; overflow-y: auto; padding: 1rem; background: #f9fafb; border-radius: 12px; }
+    .creation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    @media (max-width: 768px) {
+      .creation-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-100 to-blue-50">
+  <div id="app" class="h-full overflow-auto"><!-- Loading Screen -->
+   <div id="loading-screen" class="h-full flex items-center justify-center">
+    <div class="text-center">
+     <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+     <p class="text-gray-600 font-medium">Memuat sistem...</p>
+    </div>
+   </div><!-- Main Menu -->
+   <div id="main-menu" class="h-full flex flex-col items-center justify-center p-6 hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800">
+    <div class="text-center fade-in">
+     <div class="mb-12">
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl mb-6 shadow-2xl border border-white/20">
+       <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div>
+      <h1 id="app-title" class="text-5xl md:text-6xl font-extrabold text-white mb-3 tracking-tight">Tes Kecermatan Polri</h1>
+     </div>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto"><button onclick="showPanel('student-login')" class="group relative overflow-hidden bg-white hover:bg-gray-50 text-blue-700 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
+       <div class="flex items-center justify-center gap-3">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg><span>Siswa</span>
+       </div></button> <button onclick="showPanel('admin-login')" class="group relative overflow-hidden bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-2 border-white/30 py-5 px-10 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105">
+       <div class="flex items-center justify-center gap-3">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg><span>Admin</span>
+       </div></button>
+     </div>
+    </div>
+   </div><!-- Admin Login -->
+   <div id="admin-login" class="h-full flex flex-col items-center justify-center p-6 hidden">
+    <div class="card p-8 max-w-md w-full fade-in"><button onclick="showPanel('main-menu')" class="mb-6 text-gray-500 hover:text-gray-700 flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali </button>
+     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login Admin</h2>
+     <div class="space-y-4">
+      <div class="relative"><input type="password" id="admin-password" class="input-field w-full pr-12" placeholder="Masukkan Password"> <button onclick="togglePassword('admin-password', 'admin-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+        <svg id="admin-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg></button>
+      </div>
+      <p id="admin-login-error" class="text-red-500 text-sm hidden">Password salah!</p><button onclick="adminLogin()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold">Masuk</button> <button onclick="showForgotPassword()" class="w-full text-blue-600 hover:text-blue-700 text-sm font-medium">Lupa Password?</button>
+     </div>
+    </div>
+   </div><!-- Forgot Password Modal -->
+   <div id="forgot-password-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
+    <div class="card p-6 max-w-md w-full fade-in">
+     <h3 class="text-xl font-bold mb-4">Reset Password</h3>
+     <p class="text-gray-600 mb-4">Masukkan email admin untuk menerima password sementara.</p><input type="email" id="reset-email" class="input-field w-full mb-4" placeholder="Email Admin">
+     <div class="flex gap-3"><button onclick="closeForgotPassword()" class="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-xl font-semibold">Batal</button> <button onclick="sendResetEmail()" class="flex-1 btn-primary text-white py-3 rounded-xl font-semibold">Kirim</button>
+     </div>
+     <p id="reset-message" class="mt-4 text-sm text-center hidden"></p>
+    </div>
+   </div><!-- Student Login -->
+   <div id="student-login" class="h-full flex flex-col items-center justify-center p-6 hidden">
+    <div class="card p-8 max-w-md w-full fade-in"><button onclick="showPanel('main-menu')" class="mb-6 text-gray-500 hover:text-gray-700 flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali </button>
+     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login Siswa</h2>
+     <div class="space-y-4"><input type="text" id="student-username" class="input-field w-full" placeholder="Username">
+      <div class="relative"><input type="password" id="student-password" class="input-field w-full pr-12" placeholder="Password"> <button onclick="togglePassword('student-password', 'student-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+        <svg id="student-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg></button>
+      </div>
+      <p id="student-login-error" class="text-red-500 text-sm hidden"></p><button onclick="studentLogin()" class="w-full btn-primary text-white py-3 rounded-xl font-semibold">Masuk</button>
+     </div>
+    </div>
+   </div><!-- Admin Dashboard -->
+   <div id="admin-dashboard" class="h-full flex flex-col hidden">
+    <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-4">
+      <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
+       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+       </svg>
+      </div>
+      <h1 class="text-xl font-bold text-gray-800">Panel Admin</h1>
+     </div><button onclick="adminLogout()" class="flex items-center gap-2 text-gray-600 hover:text-red-600 font-medium">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg> Keluar </button>
+    </header>
+    <div class="flex-1 overflow-auto p-6"><!-- Admin Tabs -->
+     <div class="flex flex-wrap gap-2 mb-6"><button onclick="showAdminTab('students')" class="tab-btn active" id="tab-students">Kelola Siswa</button> <button onclick="showAdminTab('questions')" class="tab-btn" id="tab-questions">Kelola Soal</button> <button onclick="showAdminTab('monitoring')" class="tab-btn" id="tab-monitoring">Monitoring</button> <button onclick="showAdminTab('results')" class="tab-btn" id="tab-results">Hasil Ujian</button> <button onclick="showAdminTab('trash')" class="tab-btn" id="tab-trash">Sampah</button> <button onclick="showAdminTab('settings')" class="tab-btn" id="tab-settings">Pengaturan</button>
+     </div><!-- Students Management -->
+     <div id="admin-students" class="fade-in">
+      <div class="card p-6 mb-6">
+       <h3 class="text-lg font-bold mb-4">Buat Akun Siswa Baru</h3>
+       <div class="flex flex-col md:flex-row gap-4"><input type="text" id="new-student-username" class="input-field flex-1" placeholder="Username"> <input type="text" id="new-student-password" class="input-field flex-1" placeholder="Password"> <button onclick="createStudent()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold whitespace-nowrap">Buat Akun</button>
+       </div>
+      </div>
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Daftar Akun Siswa</h3>
+       <div id="students-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Belum ada akun siswa</p>
+       </div>
+      </div>
+     </div><!-- Questions Management -->
+     <div id="admin-questions" class="hidden fade-in">
+      <div class="card p-6 mb-6">
+       <h3 class="text-2xl font-bold mb-2">🎯 Buat Paket Soal Baru</h3>
+       <p class="text-gray-600 mb-6">Setiap kolom berisi 5 item yang akan menghasilkan 100 soal</p>
+       <div class="space-y-6">
+        <div><label class="block text-sm font-semibold text-gray-700 mb-2">Nama Paket Soal</label> <input type="text" id="package-name" class="input-field w-full text-lg" placeholder="Contoh: Paket Soal A">
+        </div>
+        <div><label class="block text-sm font-semibold text-gray-700 mb-3">Jenis Soal</label>
+         <div class="flex gap-3"><button onclick="setQuestionType('number')" class="tab-btn active" id="type-number">🔢 Angka</button> <button onclick="setQuestionType('letter')" class="tab-btn" id="type-letter">🔤 Huruf</button> <button onclick="setQuestionType('symbol')" class="tab-btn" id="type-symbol">⚡ Simbol</button>
+         </div>
+        </div>
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 p-5 rounded-xl">
+         <div class="flex items-start gap-3">
+          <div class="text-3xl">
+           💡
+          </div>
+          <div>
+           <p class="font-semibold text-blue-900 mb-2">Cara Mengisi:</p>
+           <ul class="text-sm text-blue-800 space-y-1">
+            <li>• <strong>Angka:</strong> Masukkan 5 angka berbeda (0-9) per kolom</li>
+            <li>• <strong>Huruf:</strong> Masukkan 5 huruf berbeda (A-Z) per kolom</li>
+            <li>• <strong>Simbol:</strong> Klik 5 simbol berbeda per kolom dari pilihan yang tersedia</li>
+            <li>• Setiap kolom harus memiliki 5 item yang berbeda (tidak boleh duplikat)</li>
+            <li>• Input akan otomatis pindah setelah terisi</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+        <div id="columns-container" class="creation-grid"></div><button onclick="saveQuestionPackage()" class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg w-full shadow-lg hover:shadow-xl transition-all"> 💾 Simpan Paket Soal </button>
+       </div>
+      </div>
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Daftar Paket Soal</h3>
+       <div id="packages-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Belum ada paket soal</p>
+       </div>
+      </div>
+     </div><!-- Monitoring -->
+     <div id="admin-monitoring" class="hidden fade-in">
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Aktivitas Siswa</h3>
+       <div id="monitoring-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Tidak ada aktivitas saat ini</p>
+       </div>
+      </div>
+     </div><!-- Results -->
+     <div id="admin-results" class="hidden fade-in">
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Hasil Ujian Siswa</h3>
+       <div id="results-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>
+       </div>
+      </div>
+     </div><!-- Trash -->
+     <div id="admin-trash" class="hidden fade-in">
+      <div class="card p-6">
+       <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold">Sampah Paket Soal</h3><button onclick="emptyTrash()" class="btn-danger text-white px-4 py-2 rounded-lg text-sm font-medium">Hapus Semua</button>
+       </div>
+       <div id="trash-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Sampah kosong</p>
+       </div>
+      </div>
+     </div><!-- Settings -->
+     <div id="admin-settings" class="hidden fade-in">
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Ganti Password Admin</h3>
+       <div class="space-y-4 max-w-md">
+        <div class="relative"><input type="password" id="current-admin-password" class="input-field w-full pr-12" placeholder="Password Saat Ini"> <button onclick="togglePassword('current-admin-password', 'current-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <svg id="current-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg></button>
+        </div>
+        <div class="relative"><input type="password" id="new-admin-password" class="input-field w-full pr-12" placeholder="Password Baru"> <button onclick="togglePassword('new-admin-password', 'new-eye')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+          <svg id="new-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg></button>
+        </div><button onclick="changeAdminPassword()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold w-full">Simpan Password Baru</button>
+        <p id="password-change-message" class="text-sm text-center hidden"></p>
+       </div>
+       <div class="mt-8 pt-6 border-t">
+        <h3 class="text-lg font-bold mb-4">Email Admin</h3>
+        <div class="flex gap-4 max-w-md"><input type="email" id="admin-email" class="input-field flex-1" placeholder="Email untuk reset password"> <button onclick="saveAdminEmail()" class="btn-primary text-white px-6 py-3 rounded-xl font-semibold">Simpan</button>
+        </div>
+        <p id="email-save-message" class="text-sm mt-2 hidden"></p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Student Dashboard -->
+   <div id="student-dashboard" class="h-full flex flex-col hidden">
+    <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-4">
+      <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center">
+       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       </svg>
+      </div>
+      <div>
+       <h1 class="text-lg font-bold text-gray-800">Selamat Datang</h1>
+       <p id="student-name-display" class="text-sm text-gray-500"></p>
+      </div>
+     </div><button onclick="studentLogout()" class="flex items-center gap-2 text-gray-600 hover:text-red-600 font-medium">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg> Keluar </button>
+    </header>
+    <div class="flex-1 overflow-auto p-6">
+     <div class="max-w-4xl mx-auto">
+      <div class="card p-6 mb-6">
+       <h3 class="text-lg font-bold mb-4">Pilih Paket Soal</h3>
+       <div id="student-packages-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Tidak ada paket soal tersedia</p>
+       </div>
+      </div>
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Riwayat Hasil Ujian</h3>
+       <div id="student-results-list" class="space-y-3">
+        <p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Test Preparation -->
+   <div id="test-preparation" class="h-full flex flex-col items-center justify-center p-6 hidden">
+    <div class="card p-10 max-w-lg w-full text-center fade-in">
+     <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+     </div>
+     <h2 class="text-2xl font-bold mb-2">Siap Memulai Tes?</h2>
+     <p id="test-package-name" class="text-gray-500 mb-8"></p>
+     <div class="space-y-3"><button onclick="startCountdown()" class="w-full btn-primary text-white py-4 px-8 rounded-xl font-semibold text-lg pulse shadow-lg hover:shadow-xl transition-all"> Mulai Tes Sekarang </button> <button onclick="backToStudentDashboardFromPrep()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 px-8 rounded-xl font-semibold transition-all"> Kembali </button>
+     </div>
+    </div>
+   </div><!-- Countdown Screen -->
+   <div id="countdown-screen" class="h-full flex flex-col items-center justify-center hidden">
+    <div class="text-center fade-in">
+     <p class="text-2xl text-gray-600 mb-4">Bersiap...</p>
+     <div id="countdown-number" class="text-9xl font-bold text-blue-600">
+      3
+     </div>
+    </div>
+   </div><!-- Test Screen -->
+   <div id="test-screen" class="h-full flex flex-col hidden bg-white"><!-- Header Kompak & Responsif -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-3 sm:px-4 py-2 shadow-md">
+     <div class="flex items-center justify-center gap-3 sm:gap-6">
+      <div class="bg-white/20 px-2 sm:px-3 py-1 rounded-lg"><span class="text-white text-xs sm:text-sm font-semibold">Kolom: <span id="current-column" class="text-sm sm:text-lg">1/10</span></span>
+      </div>
+      <div class="bg-white/20 px-2 sm:px-3 py-1 rounded-lg flex items-center gap-1 sm:gap-2">
+       <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg><span id="timer-display" class="text-white text-sm sm:text-lg font-bold">60</span>
+      </div>
+     </div>
+     <div class="h-1 bg-white/20 mt-2 rounded-full overflow-hidden max-w-md mx-auto">
+      <div id="timer-progress" class="h-full bg-white transition-all duration-1000" style="width: 100%"></div>
+     </div>
+    </div><!-- Konten Soal - Layout Responsif -->
+    <div class="flex-1 overflow-auto bg-gray-50">
+     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 sm:space-y-8"><!-- Urutan Asli -->
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 border-3 border-blue-400 rounded-xl p-4 sm:p-6 shadow-md mt-4">
+       <div id="original-sequence" class="text-2xl sm:text-4xl md:text-5xl font-bold text-blue-900 text-center tracking-[0.5em] sm:tracking-[1em] md:tracking-[2em] break-all leading-relaxed"></div>
+      </div><!-- Soal -->
+      <div class="bg-white border-3 border-gray-400 rounded-xl p-4 sm:p-6 shadow-lg">
+       <div id="question-display" class="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 text-center tracking-[0.5em] sm:tracking-[1em] md:tracking-[2em] break-all leading-relaxed"></div>
+      </div><!-- Pilihan Jawaban -->
+      <div class="bg-gradient-to-br from-gray-50 to-gray-100 border-3 border-gray-300 rounded-xl p-4 sm:p-6 shadow-md mb-6">
+       <div id="answer-options" class="grid grid-cols-5 gap-2 sm:gap-3 max-w-2xl mx-auto"></div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Column Break Screen -->
+   <div id="column-break" class="h-full flex flex-col items-center justify-center hidden">
+    <div class="text-center fade-in">
+     <p class="text-2xl text-gray-600 mb-4">Kolom <span id="break-column-number">1</span> Selesai</p>
+     <p class="text-gray-500 mb-4">Bersiap untuk kolom berikutnya...</p>
+     <div id="break-countdown" class="text-7xl font-bold text-blue-600">
+      3
+     </div>
+    </div>
+   </div><!-- Test Result Screen -->
+   <div id="test-result" class="h-full flex flex-col hidden">
+    <header class="bg-white shadow-sm px-6 py-4">
+     <h1 class="text-xl font-bold text-gray-800 text-center">Hasil Tes Kecermatan</h1>
+    </header>
+    <div class="flex-1 overflow-auto p-6">
+     <div class="max-w-4xl mx-auto">
+      <div class="card p-6 mb-6">
+       <div class="text-center mb-6">
+        <div id="result-grade" class="text-6xl font-bold mb-2"></div>
+        <p id="result-category" class="text-xl text-gray-600"></p>
+       </div>
+       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-blue-50 p-4 rounded-xl text-center">
+         <p class="text-sm text-blue-600">Total Benar</p>
+         <p id="result-correct" class="text-2xl font-bold text-blue-800">0</p>
+        </div>
+        <div class="bg-red-50 p-4 rounded-xl text-center">
+         <p class="text-sm text-red-600">Total Salah</p>
+         <p id="result-wrong" class="text-2xl font-bold text-red-800">0</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-xl text-center">
+         <p class="text-sm text-gray-600">Tidak Dijawab</p>
+         <p id="result-unanswered" class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+        <div class="bg-green-50 p-4 rounded-xl text-center">
+         <p class="text-sm text-green-600">Nilai Akhir</p>
+         <p id="result-score" class="text-2xl font-bold text-green-800">0</p>
+        </div>
+       </div>
+      </div>
+      <div class="card p-6 mb-6">
+       <h3 class="text-lg font-bold mb-4">Detail Per Kolom</h3>
+       <div id="column-results" class="space-y-3"></div>
+      </div>
+      <div class="card p-6 mb-6">
+       <h3 class="text-lg font-bold mb-4">Grafik Analisis Performa</h3>
+       <div class="bg-gray-50 p-4 rounded-xl">
+        <canvas id="performance-chart" width="800" height="400"></canvas>
+       </div>
+       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+        <div class="flex items-center gap-2">
+         <div class="w-4 h-4 rounded" style="background: #3b82f6;"></div><span class="text-sm">Kecepatan</span>
+        </div>
+        <div class="flex items-center gap-2">
+         <div class="w-4 h-4 rounded" style="background: #10b981;"></div><span class="text-sm">Ketelitian</span>
+        </div>
+        <div class="flex items-center gap-2">
+         <div class="w-4 h-4 rounded" style="background: #f59e0b;"></div><span class="text-sm">Ketahanan</span>
+        </div>
+        <div class="flex items-center gap-2">
+         <div class="w-4 h-4 rounded" style="background: #8b5cf6;"></div><span class="text-sm">Keajengan</span>
+        </div>
+       </div>
+      </div>
+      <div class="card p-6 mb-6">
+       <h3 class="text-lg font-bold mb-4">Analisis Hasil</h3>
+       <div id="result-analysis" class="space-y-4"></div>
+      </div>
+      <div class="card p-6">
+       <h3 class="text-lg font-bold mb-4">Pedoman Penilaian Tes Kecermatan Polri</h3>
+       <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+         <thead>
+          <tr class="bg-gray-50">
+           <th class="px-4 py-3 text-left">Kategori</th>
+           <th class="px-4 py-3 text-left">Rentang Nilai</th>
+           <th class="px-4 py-3 text-left">Keterangan</th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr class="border-t">
+           <td class="px-4 py-3 font-medium text-green-600">Sangat Baik</td>
+           <td class="px-4 py-3">90-100</td>
+           <td class="px-4 py-3">Tingkat kecermatan sangat tinggi</td>
+          </tr>
+          <tr class="border-t">
+           <td class="px-4 py-3 font-medium text-blue-600">Baik</td>
+           <td class="px-4 py-3">75-89</td>
+           <td class="px-4 py-3">Tingkat kecermatan baik</td>
+          </tr>
+          <tr class="border-t">
+           <td class="px-4 py-3 font-medium text-yellow-600">Cukup</td>
+           <td class="px-4 py-3">60-74</td>
+           <td class="px-4 py-3">Tingkat kecermatan cukup</td>
+          </tr>
+          <tr class="border-t">
+           <td class="px-4 py-3 font-medium text-orange-600">Kurang</td>
+           <td class="px-4 py-3">40-59</td>
+           <td class="px-4 py-3">Perlu peningkatan</td>
+          </tr>
+          <tr class="border-t">
+           <td class="px-4 py-3 font-medium text-red-600">Sangat Kurang</td>
+           <td class="px-4 py-3">0-39</td>
+           <td class="px-4 py-3">Perlu latihan intensif</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div><button onclick="backToStudentDashboard()" class="w-full btn-primary text-white py-4 rounded-xl font-semibold text-lg mt-6"> Kembali ke Dashboard </button>
+     </div>
+    </div>
+   </div><!-- Result Detail Modal -->
+   <div id="result-detail-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
+    <div class="card p-6 max-w-4xl w-full max-h-[90%] overflow-auto fade-in">
+     <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold">Detail Hasil Ujian</h3><button onclick="closeResultDetail()" class="text-gray-400 hover:text-gray-600">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <div id="result-detail-content"></div>
+    </div>
+   </div><!-- Toast Notification -->
+   <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <div class="card px-6 py-4 flex items-center gap-3 shadow-lg"><span id="toast-icon"></span>
+     <p id="toast-message" class="font-medium"></p>
+    </div>
+   </div><!-- Confirmation Modal -->
+   <div id="confirm-modal" class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden z-50">
+    <div class="card p-6 max-w-sm w-full fade-in">
+     <h3 id="confirm-title" class="text-lg font-bold mb-2"></h3>
+     <p id="confirm-message" class="text-gray-600 mb-6"></p>
+     <div class="flex gap-3"><button onclick="closeConfirm()" class="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-xl font-semibold">Batal</button> <button id="confirm-action-btn" class="flex-1 btn-danger text-white py-3 rounded-xl font-semibold">Hapus</button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ========== Global State ==========
+    let appData = {
+      students: [],
+      packages: [],
+      trash: [],
+      results: [],
+      activities: [],
+      adminPassword: '1234',
+      adminEmail: ''
+    };
+    
+    let currentStudent = null;
+    let currentTest = null;
+    let testTimer = null;
+    let questionType = 'number';
+    let confirmCallback = null;
+    let columnInputData = Array(10).fill(null).map(() => []);
+    
+    const defaultConfig = {
+      app_title: 'Tes Kecermatan Polri'
+    };
+    
+    const availableSymbols = [
+      // Mathematical symbols
+      '±', '×', '÷', '√', '∞', '≈', '≠', '≤', '≥', '∑', '∏', '∫', '∂', '∇', '∆', '∇',
+      // Greek letters
+      'α', 'β', 'γ', 'δ', '  ', 'θ', 'λ', 'μ', 'π', 'σ', 'φ', 'ψ', 'ω', 'Δ', 'Σ', 'Ω', 'Φ', 'Π',
+      // Geometric shapes
+      '★', '☆', '   ', '○', '■', '□', '▲', '△', '▼', '▽', '◆', '◇', '◈', '⬟', '⬡', '⬢', '⬣', '◉', '      ', '◯',
+      // Arrows
+      '   ', '←', '↑', '↓', '↔', '↕', '⇒', '⇐', '⇑', '⇓', '⇔', '⇕', '↗', '↘', '↖', '↙',
+      // Card suits
+      '♠', '♣', '♥', '♦', '♤', '♧', '♡', '♢',
+      // Stars and crosses
+      '✦', '✧', '✪', '✫', '✬', '✭', '✮', '✯', '✰', '✱', '✚', '✖', '✗', '✘', '※', '   ',
+      // Circles and dots
+      '⊕', '⊗', '⊙', '⊚', '⊛', '⊜', '⊝', '⊡', '  ', '⊞',
+      // Scientific
+      '℃', '℉', 'Å', '℧', '℮', 'ℓ', '  ', '   ', '®', '©', '™', '℀', '℁', '℅', '℆',
+      // Currency
+      '€', '£', '¥', '₹', '₽', '₩', '฿', '₪', '₫', '₱', '₡', '₢', '₣', '₤', '₥', '₦',
+      // Misc
+      '§', '¶', '†', '‡', '‰', '‱', '⌘', '⌥', '⏎', '⌫', '⌦', '  ', '   ', '〒', '〠', '〶'
+    ];
+    
+    // ========== Data SDK Handler ==========
+    const dataHandler = {
+      onDataChanged(data) {
+        if (!data || data.length === 0) {
+          appData = { students: [], packages: [], trash: [], results: [], activities: [], adminPassword: '1234', adminEmail: '' };
+        } else {
+          data.forEach(record => {
+            if (record.type === 'app_data') {
+              try {
+                const parsed = JSON.parse(record.data);
+                appData = { ...appData, ...parsed };
+              } catch (e) {
+                console.error('Parse error:', e);
+              }
+            }
+          });
+        }
+        updateAllViews();
+      }
+    };
+    
+    // ========== Initialize ==========
+    async function initApp() {
+      try {
+        if (window.dataSdk) {
+          const result = await window.dataSdk.init(dataHandler);
+          if (!result.isOk) {
+            console.error('Data SDK init failed');
+          }
+        }
+        
+        if (window.elementSdk) {
+          window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: async (config) => {
+              document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+            },
+            mapToCapabilities: (config) => ({
+              recolorables: [],
+              borderables: [],
+              fontEditable: undefined,
+              fontSizeable: undefined
+            }),
+            mapToEditPanelValues: (config) => new Map([
+              ['app_title', config.app_title || defaultConfig.app_title]
+            ])
+          });
+        }
+        
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('main-menu').classList.remove('hidden');
+        
+        initColumnInputs();
+      } catch (error) {
+        console.error('Init error:', error);
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('main-menu').classList.remove('hidden');
+      }
+    }
+    
+    async function saveAppData() {
+      if (!window.dataSdk) return;
+      
+      try {
+        const existingData = await findExistingRecord();
+        const dataString = JSON.stringify(appData);
+        
+        if (existingData) {
+          existingData.data = dataString;
+          existingData.updated_at = new Date().toISOString();
+          await window.dataSdk.update(existingData);
+        } else {
+          await window.dataSdk.create({
+            type: 'app_data',
+            data: dataString,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+        }
+      } catch (error) {
+        console.error('Save error:', error);
+      }
+    }
+    
+    async function findExistingRecord() {
+      return new Promise(resolve => {
+        let found = null;
+        const tempHandler = {
+          onDataChanged(data) {
+            found = data.find(r => r.type === 'app_data');
+            resolve(found);
+          }
+        };
+        if (window.dataSdk) {
+          window.dataSdk.init(tempHandler).then(() => {
+            setTimeout(() => resolve(found), 100);
+          });
+        } else {
+          resolve(null);
+        }
+      });
+    }
+    
+    // ========== UI Navigation ==========
+    function showPanel(panelId) {
+      const panels = ['main-menu', 'admin-login', 'student-login', 'admin-dashboard', 'student-dashboard', 'test-preparation', 'countdown-screen', 'test-screen', 'column-break', 'test-result'];
+      panels.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(panelId).classList.remove('hidden');
+    }
+    
+    function showAdminTab(tabName) {
+      const tabs = ['students', 'questions', 'monitoring', 'results', 'trash', 'settings'];
+      tabs.forEach(tab => {
+        document.getElementById(`admin-${tab}`).classList.add('hidden');
+        document.getElementById(`tab-${tab}`).classList.remove('active');
+      });
+      document.getElementById(`admin-${tabName}`).classList.remove('hidden');
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+    }
+    
+    function togglePassword(inputId, eyeId) {
+      const input = document.getElementById(inputId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      const msg = document.getElementById('toast-message');
+      
+      msg.textContent = message;
+      if (type === 'success') {
+        icon.innerHTML = '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+      } else {
+        icon.innerHTML = '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+      }
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+    
+    function showConfirm(title, message, callback) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      document.getElementById('confirm-modal').classList.remove('hidden');
+      confirmCallback = callback;
+    }
+    
+    function closeConfirm() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+      confirmCallback = null;
+    }
+    
+    document.getElementById('confirm-action-btn').onclick = () => {
+      if (confirmCallback) confirmCallback();
+      closeConfirm();
+    };
+    
+    // ========== Admin Functions ==========
+    function adminLogin() {
+      const password = document.getElementById('admin-password').value;
+      if (password === appData.adminPassword) {
+        document.getElementById('admin-login-error').classList.add('hidden');
+        document.getElementById('admin-password').value = '';
+        showPanel('admin-dashboard');
+        updateAllViews();
+      } else {
+        document.getElementById('admin-login-error').classList.remove('hidden');
+      }
+    }
+    
+    function adminLogout() {
+      showPanel('main-menu');
+    }
+    
+    function showForgotPassword() {
+      document.getElementById('forgot-password-modal').classList.remove('hidden');
+    }
+    
+    function closeForgotPassword() {
+      document.getElementById('forgot-password-modal').classList.add('hidden');
+      document.getElementById('reset-message').classList.add('hidden');
+    }
+    
+    function sendResetEmail() {
+      const email = document.getElementById('reset-email').value;
+      const msgEl = document.getElementById('reset-message');
+      
+      if (!email) {
+        msgEl.textContent = 'Masukkan email terlebih dahulu';
+        msgEl.className = 'mt-4 text-sm text-center text-red-500';
+        msgEl.classList.remove('hidden');
+        return;
+      }
+      
+      if (appData.adminEmail && email === appData.adminEmail) {
+        const tempPassword = Math.random().toString(36).substring(2, 10);
+        appData.adminPassword = tempPassword;
+        saveAppData();
+        
+        msgEl.innerHTML = `Password sementara: <strong>${tempPassword}</strong><br>Silakan ganti password setelah login.`;
+        msgEl.className = 'mt-4 text-sm text-center text-green-600';
+        msgEl.classList.remove('hidden');
+      } else {
+        msgEl.textContent = 'Email tidak terdaftar';
+        msgEl.className = 'mt-4 text-sm text-center text-red-500';
+        msgEl.classList.remove('hidden');
+      }
+    }
+    
+    function changeAdminPassword() {
+      const current = document.getElementById('current-admin-password').value;
+      const newPass = document.getElementById('new-admin-password').value;
+      const msgEl = document.getElementById('password-change-message');
+      
+      if (current !== appData.adminPassword) {
+        msgEl.textContent = 'Password saat ini salah';
+        msgEl.className = 'text-sm text-center text-red-500';
+        msgEl.classList.remove('hidden');
+        return;
+      }
+      
+      if (newPass.length < 4) {
+        msgEl.textContent = 'Password baru minimal 4 karakter';
+        msgEl.className = 'text-sm text-center text-red-500';
+        msgEl.classList.remove('hidden');
+        return;
+      }
+      
+      appData.adminPassword = newPass;
+      saveAppData();
+      
+      document.getElementById('current-admin-password').value = '';
+      document.getElementById('new-admin-password').value = '';
+      
+      msgEl.textContent = 'Password berhasil diubah';
+      msgEl.className = 'text-sm text-center text-green-600';
+      msgEl.classList.remove('hidden');
+    }
+    
+    function saveAdminEmail() {
+      const email = document.getElementById('admin-email').value;
+      const msgEl = document.getElementById('email-save-message');
+      
+      if (!email || !email.includes('@')) {
+        msgEl.textContent = 'Masukkan email yang valid';
+        msgEl.className = 'text-sm text-red-500';
+        msgEl.classList.remove('hidden');
+        return;
+      }
+      
+      appData.adminEmail = email;
+      saveAppData();
+      
+      msgEl.textContent = 'Email berhasil disimpan';
+      msgEl.className = 'text-sm text-green-600';
+      msgEl.classList.remove('hidden');
+    }
+    
+    // ========== Student Management ==========
+    function createStudent() {
+      const username = document.getElementById('new-student-username').value.trim();
+      const password = document.getElementById('new-student-password').value.trim();
+      
+      if (!username || !password) {
+        showToast('Username dan password harus diisi', 'error');
+        return;
+      }
+      
+      if (appData.students.find(s => s.username === username)) {
+        showToast('Username sudah digunakan', 'error');
+        return;
+      }
+      
+      appData.students.push({
+        id: Date.now().toString(),
+        username,
+        password,
+        active: true,
+        createdAt: new Date().toISOString()
+      });
+      
+      saveAppData();
+      document.getElementById('new-student-username').value = '';
+      document.getElementById('new-student-password').value = '';
+      showToast('Akun siswa berhasil dibuat');
+      renderStudentsList();
+    }
+    
+    function toggleStudentStatus(studentId) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (student) {
+        student.active = !student.active;
+        saveAppData();
+        renderStudentsList();
+      }
+    }
+    
+    function deleteStudent(studentId) {
+      showConfirm('Hapus Akun', 'Apakah Anda yakin ingin menghapus akun siswa ini?', () => {
+        appData.students = appData.students.filter(s => s.id !== studentId);
+        saveAppData();
+        renderStudentsList();
+        showToast('Akun siswa berhasil dihapus');
+      });
+    }
+    
+    function renderStudentsList() {
+      const container = document.getElementById('students-list');
+      
+      if (appData.students.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada akun siswa</p>';
+        return;
+      }
+      
+      container.innerHTML = appData.students.map(student => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-4">
+            <div class="w-3 h-3 rounded-full ${student.active ? 'status-online' : 'status-offline'}"></div>
+            <div>
+              <p class="font-semibold">${student.username}</p>
+              <p class="text-sm text-gray-500">Password: ${student.password}</p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="toggleStudentStatus('${student.id}')" class="px-3 py-2 rounded-lg text-sm font-medium ${student.active ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
+              ${student.active ? 'Nonaktifkan' : 'Aktifkan'}
+            </button>
+            <button onclick="deleteStudent('${student.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200">Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // ========== Question Package Management ==========
+    function setQuestionType(type) {
+      questionType = type;
+      ['number', 'letter', 'symbol'].forEach(t => {
+        document.getElementById(`type-${t}`).classList.toggle('active', t === type);
+      });
+      
+      columnInputData = Array(10).fill(null).map(() => []);
+      initColumnInputs();
+    }
+    
+    function initColumnInputs() {
+      const container = document.getElementById('columns-container');
+      let html = '';
+      
+      for (let col = 1; col <= 10; col++) {
+        html += `
+          <div class="column-card">
+            <div class="column-header">
+              <p class="text-xl font-bold text-center">Kolom ${col}</p>
+            </div>
+            ${getColumnInputsHTML(col)}
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    function getColumnInputsHTML(col) {
+      if (questionType === 'number') {
+        return `
+          <div class="flex items-center justify-center gap-4">
+            ${Array(5).fill(0).map((_, i) => `
+              <div class="item-box">
+                <span class="item-label">Item ${i+1}</span>
+                <input 
+                  type="number" 
+                  min="0" 
+                  max="9" 
+                  class="number-input" 
+                  placeholder="${i+1}" 
+                  id="col-${col}-item-${i}" 
+                  data-col="${col}"
+                  data-idx="${i}"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                  oninput="handleNumberInput(${col}, ${i}, this)"
+                >
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (questionType === 'letter') {
+        return `
+          <div class="flex items-center justify-center gap-4">
+            ${Array(5).fill(0).map((_, i) => `
+              <div class="item-box">
+                <span class="item-label">Item ${i+1}</span>
+                <input 
+                  type="text" 
+                  maxlength="1" 
+                  class="letter-input uppercase" 
+                  placeholder="${String.fromCharCode(65 + i)}" 
+                  id="col-${col}-item-${i}"
+                  data-col="${col}"
+                  data-idx="${i}"
+                  onkeypress="return /[a-zA-Z]/.test(String.fromCharCode(event.charCode))"
+                  oninput="handleLetterInput(${col}, ${i}, this)"
+                >
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else {
+        return `
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-3 text-center">Klik 5 simbol berbeda:</p>
+            <div class="symbol-grid mb-4" id="symbol-grid-${col}">
+              ${availableSymbols.map(symbol => `
+                <button type="button" onclick="toggleSymbolForColumn(${col}, '${symbol}')" 
+                  class="symbol-btn" data-col="${col}" data-symbol="${symbol}">${symbol}</button>
+              `).join('')}
+            </div>
+            <div class="bg-blue-50 p-4 rounded-xl">
+              <p class="text-sm font-medium text-blue-800 mb-2 text-center">Simbol Terpilih (<span id="count-${col}">0</span>/5):</p>
+              <div id="selected-${col}" class="flex gap-2 justify-center flex-wrap min-h-[60px] items-center text-3xl font-bold text-blue-600"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    function handleNumberInput(col, idx, input) {
+      let value = input.value;
+      
+      if (value.length > 1) {
+        value = value.slice(-1);
+        input.value = value;
+      }
+      
+      if (value === '') {
+        columnInputData[col-1][idx] = undefined;
+        input.classList.remove('error', 'filled');
+        return;
+      }
+      
+      const num = parseInt(value);
+      
+      const existingValues = columnInputData[col-1].filter((v, i) => i !== idx && v !== undefined);
+      if (existingValues.includes(num)) {
+        showToast(`Angka ${num} sudah digunakan di kolom ${col}`, 'error');
+        input.value = '';
+        input.classList.add('error');
+        columnInputData[col-1][idx] = undefined;
+        setTimeout(() => input.classList.remove('error'), 1000);
+        return;
+      }
+      
+      columnInputData[col-1][idx] = num;
+      input.classList.remove('error');
+      input.classList.add('filled');
+      
+      if (idx < 4) {
+        const nextInput = document.getElementById(`col-${col}-item-${idx + 1}`);
+        if (nextInput) nextInput.focus();
+      } else if (col < 10) {
+        const nextColInput = document.getElementById(`col-${col + 1}-item-0`);
+        if (nextColInput) nextColInput.focus();
+      }
+    }
+    
+    function handleLetterInput(col, idx, input) {
+      let value = input.value.toUpperCase();
+      input.value = value;
+      
+      if (value === '') {
+        columnInputData[col-1][idx] = undefined;
+        input.classList.remove('error', 'filled');
+        return;
+      }
+      
+      const existingValues = columnInputData[col-1].filter((v, i) => i !== idx && v !== undefined);
+      if (existingValues.includes(value)) {
+        showToast(`Huruf ${value} sudah digunakan di kolom ${col}`, 'error');
+        input.value = '';
+        input.classList.add('error');
+        columnInputData[col-1][idx] = undefined;
+        setTimeout(() => input.classList.remove('error'), 1000);
+        return;
+      }
+      
+      columnInputData[col-1][idx] = value;
+      input.classList.remove('error');
+      input.classList.add('filled');
+      
+      if (idx < 4) {
+        const nextInput = document.getElementById(`col-${col}-item-${idx + 1}`);
+        if (nextInput) nextInput.focus();
+      } else if (col < 10) {
+        const nextColInput = document.getElementById(`col-${col + 1}-item-0`);
+        if (nextColInput) nextColInput.focus();
+      }
+    }
+    
+    function toggleSymbolForColumn(col, symbol) {
+      const currentSymbols = columnInputData[col-1];
+      const index = currentSymbols.indexOf(symbol);
+      
+      if (index > -1) {
+        currentSymbols.splice(index, 1);
+      } else {
+        if (currentSymbols.filter(s => s !== undefined).length >= 5) {
+          showToast(`Maksimal 5 simbol untuk kolom ${col}`, 'error');
+          return;
+        }
+        currentSymbols.push(symbol);
+      }
+      
+      updateSymbolDisplay(col);
+    }
+    
+    function updateSymbolDisplay(col) {
+      const symbols = columnInputData[col-1].filter(s => s !== undefined);
+      const container = document.getElementById(`selected-${col}`);
+      const countEl = document.getElementById(`count-${col}`);
+      
+      countEl.textContent = symbols.length;
+      container.innerHTML = symbols.length > 0 ? symbols.join('  ') : '<span class="text-sm text-gray-400">Belum ada simbol dipilih</span>';
+      
+      const buttons = document.querySelectorAll(`[data-col="${col}"].symbol-btn`);
+      buttons.forEach(btn => {
+        const symbol = btn.getAttribute('data-symbol');
+        if (symbols.includes(symbol)) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+        
+        if (symbols.length >= 5 && !symbols.includes(symbol)) {
+          btn.classList.add('disabled');
+        } else {
+          btn.classList.remove('disabled');
+        }
+      });
+    }
+    
+    function saveQuestionPackage() {
+      const packageName = document.getElementById('package-name').value.trim();
+      
+      if (!packageName) {
+        showToast('Nama paket harus diisi', 'error');
+        return;
+      }
+      
+      const columns = [];
+      for (let col = 1; col <= 10; col++) {
+        const items = columnInputData[col-1].filter(v => v !== undefined && v !== null && v !== '');
+        
+        if (items.length !== 5) {
+          showToast(`Kolom ${col} harus diisi 5 item`, 'error');
+          return;
+        }
+        
+        const uniqueItems = new Set(items);
+        if (uniqueItems.size !== 5) {
+          showToast(`Kolom ${col} memiliki nilai duplikat`, 'error');
+          return;
+        }
+        
+        columns.push(items);
+      }
+      
+      const pkg = {
+        id: Date.now().toString(),
+        name: packageName,
+        type: questionType,
+        columns,
+        active: true,
+        createdAt: new Date().toISOString()
+      };
+      
+      appData.packages.push(pkg);
+      saveAppData();
+      
+      document.getElementById('package-name').value = '';
+      columnInputData = Array(10).fill(null).map(() => []);
+      initColumnInputs();
+      
+      showToast('Paket soal berhasil disimpan');
+      renderPackagesList();
+    }
+    
+    function togglePackageStatus(packageId) {
+      const pkg = appData.packages.find(p => p.id === packageId);
+      if (pkg) {
+        pkg.active = !pkg.active;
+        saveAppData();
+        renderPackagesList();
+      }
+    }
+    
+    function deletePackage(packageId) {
+      showConfirm('Hapus Paket', 'Paket akan dipindahkan ke sampah. Lanjutkan?', () => {
+        const pkg = appData.packages.find(p => p.id === packageId);
+        if (pkg) {
+          appData.trash.push({ ...pkg, deletedAt: new Date().toISOString() });
+          appData.packages = appData.packages.filter(p => p.id !== packageId);
+          saveAppData();
+          renderPackagesList();
+          renderTrashList();
+          showToast('Paket dipindahkan ke sampah');
+        }
+      });
+    }
+    
+    function renderPackagesList() {
+      const container = document.getElementById('packages-list');
+      
+      if (appData.packages.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada paket soal</p>';
+        return;
+      }
+      
+      const typeLabels = { number: 'Angka Hilang', letter: 'Huruf Hilang', symbol: 'Simbol Hilang' };
+      
+      container.innerHTML = appData.packages.map(pkg => `
+        <div class="p-4 bg-gray-50 rounded-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full ${pkg.active ? 'status-online' : 'status-offline'}"></div>
+              <div>
+                <p class="font-semibold">${pkg.name}</p>
+                <p class="text-sm text-gray-500">${typeLabels[pkg.type]} • 10 Kolom    100 Soal</p>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="togglePackageStatus('${pkg.id}')" class="px-3 py-2 rounded-lg text-sm font-medium ${pkg.active ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">
+                ${pkg.active ? 'Nonaktifkan' : 'Aktifkan'}
+              </button>
+              <button onclick="deletePackage('${pkg.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700">Hapus</button>
+            </div>
+          </div>
+          <div class="bg-white p-3 rounded-lg">
+            <p class="text-xs font-medium text-gray-500 mb-2">Urutan Item per Kolom (5 Item):</p>
+            <div class="flex flex-wrap gap-2">
+              ${pkg.columns.map((col, idx) => `
+                <div class="bg-blue-50 p-2 rounded flex-1 min-w-[100px]">
+                  <p class="text-xs text-blue-600 font-semibold mb-1 text-center">Kolom ${idx+1}</p>
+                  <div class="text-center text-lg font-bold">${col.join(' ')}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // ========== Trash Management ==========
+    function renderTrashList() {
+      const container = document.getElementById('trash-list');
+      
+      if (appData.trash.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Sampah kosong</p>';
+        return;
+      }
+      
+      container.innerHTML = appData.trash.map(pkg => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div>
+            <p class="font-semibold">${pkg.name}</p>
+            <p class="text-sm text-gray-500">Dihapus: ${new Date(pkg.deletedAt).toLocaleDateString('id-ID')}</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="restorePackage('${pkg.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-green-100 text-green-700">Pulihkan</button>
+            <button onclick="permanentDeletePackage('${pkg.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700">Hapus Permanen</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function restorePackage(packageId) {
+      const pkg = appData.trash.find(p => p.id === packageId);
+      if (pkg) {
+        delete pkg.deletedAt;
+        appData.packages.push(pkg);
+        appData.trash = appData.trash.filter(p => p.id !== packageId);
+        saveAppData();
+        renderPackagesList();
+        renderTrashList();
+        showToast('Paket berhasil dipulihkan');
+      }
+    }
+    
+    function permanentDeletePackage(packageId) {
+      showConfirm('Hapus Permanen', 'Paket akan dihapus permanen dan tidak dapat dipulihkan. Lanjutkan?', () => {
+        appData.trash = appData.trash.filter(p => p.id !== packageId);
+        saveAppData();
+        renderTrashList();
+        showToast('Paket berhasil dihapus permanen');
+      });
+    }
+    
+    function emptyTrash() {
+      if (appData.trash.length === 0) {
+        showToast('Sampah sudah kosong', 'error');
+        return;
+      }
+      
+      showConfirm('Kosongkan Sampah', 'Semua paket di sampah akan dihapus permanen. Lanjutkan?', () => {
+        appData.trash = [];
+        saveAppData();
+        renderTrashList();
+        showToast('Sampah berhasil dikosongkan');
+      });
+    }
+    
+    // ========== Monitoring ==========
+    function updateActivity(studentId, activity) {
+      const existingIndex = appData.activities.findIndex(a => a.studentId === studentId);
+      const student = appData.students.find(s => s.id === studentId);
+      
+      const activityData = {
+        studentId,
+        studentName: student ? student.username : 'Unknown',
+        activity,
+        timestamp: new Date().toISOString()
+      };
+      
+      if (existingIndex > -1) {
+        appData.activities[existingIndex] = activityData;
+      } else {
+        appData.activities.push(activityData);
+      }
+      
+      saveAppData();
+    }
+    
+    function removeActivity(studentId) {
+      appData.activities = appData.activities.filter(a => a.studentId !== studentId);
+      saveAppData();
+    }
+    
+    function renderMonitoring() {
+      const container = document.getElementById('monitoring-list');
+      
+      const activeActivities = appData.activities.filter(a => {
+        const timeDiff = Date.now() - new Date(a.timestamp).getTime();
+        return timeDiff < 300000;
+      });
+      
+      if (activeActivities.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Tidak ada aktivitas saat ini</p>';
+        return;
+      }
+      
+      container.innerHTML = activeActivities.map(activity => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full status-online"></div>
+            <div>
+              <p class="font-semibold">${activity.studentName}</p>
+              <p class="text-sm text-gray-500">${activity.activity}</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400">${new Date(activity.timestamp).toLocaleTimeString('id-ID')}</p>
+        </div>
+      `).join('');
+    }
+    
+    // ========== Student Functions ==========
+    function studentLogin() {
+      const username = document.getElementById('student-username').value.trim();
+      const password = document.getElementById('student-password').value;
+      const errorEl = document.getElementById('student-login-error');
+      
+      const student = appData.students.find(s => s.username === username && s.password === password);
+      
+      if (!student) {
+        errorEl.textContent = 'Username atau password salah';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+      
+      if (!student.active) {
+        errorEl.textContent = 'Akun Anda tidak aktif. Hubungi admin.';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+      
+      errorEl.classList.add('hidden');
+      currentStudent = student;
+      document.getElementById('student-username').value = '';
+      document.getElementById('student-password').value = '';
+      document.getElementById('student-name-display').textContent = student.username;
+      
+      updateActivity(student.id, 'Online - Dashboard');
+      showPanel('student-dashboard');
+      renderStudentPackages();
+      renderStudentResults();
+    }
+    
+    function studentLogout() {
+      if (currentStudent) {
+        removeActivity(currentStudent.id);
+      }
+      currentStudent = null;
+      currentTest = null;
+      showPanel('main-menu');
+    }
+    
+    function renderStudentPackages() {
+      const container = document.getElementById('student-packages-list');
+      const activePackages = appData.packages.filter(p => p.active);
+      
+      if (activePackages.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Tidak ada paket soal tersedia</p>';
+        return;
+      }
+      
+      container.innerHTML = activePackages.map(pkg => {
+        // Cek apakah siswa sudah mengerjakan paket ini
+        const hasCompleted = appData.results.some(r => 
+          r.studentId === currentStudent.id && r.packageId === pkg.id
+        );
+        
+        if (hasCompleted) {
+          return `
+            <div class="flex items-center justify-between p-4 bg-gray-100 rounded-xl border-2 border-gray-300">
+              <div>
+                <p class="font-semibold text-gray-600">${pkg.name}</p>
+                <p class="text-xs text-green-600 font-medium mt-1">✓ Sudah Dikerjakan</p>
+              </div>
+              <button disabled class="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Selesai</button>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <div>
+                <p class="font-semibold">${pkg.name}</p>
+              </div>
+              <button onclick="startTest('${pkg.id}')" class="btn-primary text-white px-4 py-2 rounded-lg font-medium">Mulai Tes</button>
+            </div>
+          `;
+        }
+      }).join('');
+    }
+    
+    function renderStudentResults() {
+      const container = document.getElementById('student-results-list');
+      
+      if (!currentStudent) return;
+      
+      const studentResults = appData.results.filter(r => r.studentId === currentStudent.id);
+      
+      if (studentResults.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>';
+        return;
+      }
+      
+      container.innerHTML = studentResults.map(result => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div>
+            <p class="font-semibold">${result.packageName}</p>
+            <p class="text-sm text-gray-500">${new Date(result.completedAt).toLocaleDateString('id-ID', { dateStyle: 'long' })}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <p class="text-2xl font-bold ${getScoreColor(result.score)}">${result.score}</p>
+              <p class="text-sm text-gray-500">${getScoreCategory(result.score)}</p>
+            </div>
+            <button onclick="viewResultDetail('${result.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-700">Detail</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // ========== Test Execution ==========
+    function startTest(packageId) {
+      const pkg = appData.packages.find(p => p.id === packageId);
+      if (!pkg) return;
+      
+      // Cek apakah siswa sudah pernah mengerjakan paket ini
+      const hasCompleted = appData.results.some(r => 
+        r.studentId === currentStudent.id && r.packageId === packageId
+      );
+      
+      if (hasCompleted) {
+        showToast('Anda sudah mengerjakan paket soal ini', 'error');
+        return;
+      }
+      
+      currentTest = {
+        package: pkg,
+        currentColumn: 0,
+        currentQuestion: 0,
+        answers: [],
+        columnResults: [],
+        startTime: null
+      };
+      
+      for (let col = 0; col < 10; col++) {
+        const columnQuestions = generateColumnQuestions(pkg.columns[col], pkg.type);
+        currentTest.answers.push(new Array(columnQuestions.length).fill(null));
+        currentTest.columnResults.push({ questions: columnQuestions, correct: 0, wrong: 0, unanswered: 0 });
+      }
+      
+      document.getElementById('test-package-name').textContent = pkg.name;
+      updateActivity(currentStudent.id, `Mengerjakan: ${pkg.name}`);
+      showPanel('test-preparation');
+    }
+    
+    function generateColumnQuestions(columnItems, type) {
+      const questions = [];
+      const numQuestions = 100;
+      
+      for (let i = 0; i < numQuestions; i++) {
+        // Pilih indeks yang akan disembunyikan (0-4)
+        const hiddenIndex = Math.floor(Math.random() * 5);
+        
+        // Buat array yang diacak untuk ditampilkan
+        const shuffledItems = shuffleArray([...columnItems]);
+        
+        // Buat tampilan 4 item (yang tidak disembunyikan)
+        const displayItems = [];
+        for (let j = 0; j < 5; j++) {
+          if (j !== hiddenIndex) {
+            displayItems.push(shuffledItems[j]);
+          }
+        }
+        
+        // Jawaban benar adalah item yang disembunyikan dari urutan yang diacak
+        const correctAnswer = shuffledItems[hiddenIndex];
+        
+        // Cari indeks jawaban benar di urutan ASLI (columnItems)
+        const correctAnswerIndexInOriginal = columnItems.indexOf(correctAnswer);
+        
+        questions.push({
+          originalSequence: columnItems.join('  '),  // Urutan asli dari admin
+          display: displayItems.join('  '),          // 4 item yang diacak
+          correctAnswer: correctAnswer,              // Item yang hilang
+          correctAnswerIndex: correctAnswerIndexInOriginal,  // Indeks di urutan asli (untuk label A-E)
+          options: columnItems,                      // Opsi tetap urutan asli
+          hiddenIndex: hiddenIndex
+        });
+      }
+      
+      return questions;
+    }
+    
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    
+    function startCountdown() {
+      showPanel('countdown-screen');
+      let count = 3;
+      document.getElementById('countdown-number').textContent = count;
+      
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          document.getElementById('countdown-number').textContent = count;
+        } else {
+          clearInterval(interval);
+          startColumn();
+        }
+      }, 1000);
+    }
+    
+    function startColumn() {
+      showPanel('test-screen');
+      currentTest.startTime = Date.now();
+      
+      updateTestDisplay();
+      startTimer();
+    }
+    
+    function updateTestDisplay() {
+      const col = currentTest.currentColumn;
+      const q = currentTest.currentQuestion;
+      const question = currentTest.columnResults[col].questions[q];
+      
+      document.getElementById('current-column').textContent = `${col + 1}/10`;
+      
+      // Tampilkan urutan asli dari admin
+      document.getElementById('original-sequence').textContent = question.originalSequence;
+      
+      // Tampilkan soal yang sudah diacak (4 item)
+      document.getElementById('question-display').textContent = question.display;
+      
+      const optionsContainer = document.getElementById('answer-options');
+      const labels = ['A', 'B', 'C', 'D', 'E'];
+      
+      // Tampilkan pilihan ganda A-E saja
+      optionsContainer.innerHTML = question.options.map((opt, idx) => `
+        <button onclick="selectAnswer('${opt}', ${idx})" class="answer-btn bg-white border-3 border-gray-500 rounded-xl hover:bg-blue-100 focus:outline-none focus:ring-4 focus:ring-blue-400 transition-all">
+          <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800">${labels[idx]}</div>
+        </button>
+      `).join('');
+    }
+    
+    function selectAnswer(answer) {
+      const col = currentTest.currentColumn;
+      const q = currentTest.currentQuestion;
+      const question = currentTest.columnResults[col].questions[q];
+      
+      currentTest.answers[col][q] = answer;
+      
+      if (answer === question.correctAnswer.toString()) {
+        currentTest.columnResults[col].correct++;
+      } else {
+        currentTest.columnResults[col].wrong++;
+      }
+      
+      currentTest.currentQuestion++;
+      
+      if (currentTest.currentQuestion >= currentTest.columnResults[col].questions.length) {
+        finishColumn();
+      } else {
+        updateTestDisplay();
+      }
+    }
+    
+    function startTimer() {
+      let timeLeft = 60;
+      document.getElementById('timer-display').textContent = timeLeft;
+      document.getElementById('timer-progress').style.width = '100%';
+      
+      if (testTimer) clearInterval(testTimer);
+      
+      testTimer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer-display').textContent = timeLeft;
+        document.getElementById('timer-progress').style.width = `${(timeLeft / 60) * 100}%`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(testTimer);
+          finishColumn();
+        }
+      }, 1000);
+    }
+    
+    function finishColumn() {
+      if (testTimer) {
+        clearInterval(testTimer);
+        testTimer = null;
+      }
+      
+      const col = currentTest.currentColumn;
+      const colResult = currentTest.columnResults[col];
+      
+      const answered = colResult.correct + colResult.wrong;
+      colResult.unanswered = colResult.questions.length - answered;
+      
+      currentTest.currentColumn++;
+      currentTest.currentQuestion = 0;
+      
+      if (currentTest.currentColumn >= 10) {
+        showTestResult();
+      } else {
+        showColumnBreak();
+      }
+    }
+    
+    function showColumnBreak() {
+      showPanel('column-break');
+      document.getElementById('break-column-number').textContent = currentTest.currentColumn;
+      
+      let count = 3;
+      document.getElementById('break-countdown').textContent = count;
+      
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          document.getElementById('break-countdown').textContent = count;
+        } else {
+          clearInterval(interval);
+          startColumn();
+        }
+      }, 1000);
+    }
+    
+    function showTestResult() {
+      removeActivity(currentStudent.id);
+      
+      let totalCorrect = 0;
+      let totalWrong = 0;
+      let totalUnanswered = 0;
+      
+      currentTest.columnResults.forEach(col => {
+        totalCorrect += col.correct;
+        totalWrong += col.wrong;
+        totalUnanswered += col.unanswered;
+      });
+      
+      const totalQuestions = totalCorrect + totalWrong + totalUnanswered;
+      const score = Math.round((totalCorrect / totalQuestions) * 100);
+      
+      // Hitung metrik untuk grafik
+      const metrics = calculatePerformanceMetrics(currentTest.columnResults);
+      
+      const result = {
+        id: Date.now().toString(),
+        studentId: currentStudent.id,
+        studentName: currentStudent.username,
+        packageId: currentTest.package.id,
+        packageName: currentTest.package.name,
+        packageType: currentTest.package.type,
+        totalCorrect,
+        totalWrong,
+        totalUnanswered,
+        score,
+        metrics,
+        columnResults: currentTest.columnResults.map(col => ({
+          correct: col.correct,
+          wrong: col.wrong,
+          unanswered: col.unanswered
+        })),
+        completedAt: new Date().toISOString()
+      };
+      
+      appData.results.push(result);
+      saveAppData();
+      
+      showPanel('test-result');
+      
+      document.getElementById('result-correct').textContent = totalCorrect;
+      document.getElementById('result-wrong').textContent = totalWrong;
+      document.getElementById('result-unanswered').textContent = totalUnanswered;
+      document.getElementById('result-score').textContent = score;
+      
+      document.getElementById('result-grade').textContent = score;
+      document.getElementById('result-grade').className = `text-6xl font-bold mb-2 ${getScoreColor(score)}`;
+      document.getElementById('result-category').textContent = getScoreCategory(score);
+      
+      document.getElementById('column-results').innerHTML = currentTest.columnResults.map((col, idx) => {
+        const colScore = Math.round((col.correct / (col.correct + col.wrong + col.unanswered)) * 100);
+        return `
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="font-medium">Kolom ${idx + 1}</span>
+            <div class="flex items-center gap-4">
+              <span class="text-green-600">✓ ${col.correct}</span>
+              <span class="text-red-600">✗ ${col.wrong}</span>
+              <span class="text-gray-400">○ ${col.unanswered}</span>
+              <span class="font-bold ${getScoreColor(colScore)}">${colScore}%</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Gambar grafik
+      drawPerformanceChart(metrics);
+      
+      document.getElementById('result-analysis').innerHTML = generateAnalysis(result);
+    }
+    
+    function calculatePerformanceMetrics(columnResults) {
+      const speedData = [];
+      const accuracyData = [];
+      const enduranceData = [];
+      const consistencyData = [];
+      
+      columnResults.forEach((col, idx) => {
+        const total = col.correct + col.wrong + col.unanswered;
+        const answered = col.correct + col.wrong;
+        
+        // Kecepatan: persentase soal yang dijawab (bukan kosong)
+        const speed = total > 0 ? (answered / total) * 100 : 0;
+        speedData.push(speed);
+        
+        // Ketelitian: persentase jawaban benar dari yang dijawab
+        const accuracy = answered > 0 ? (col.correct / answered) * 100 : 0;
+        accuracyData.push(accuracy);
+        
+        // Ketahanan: skor menurun dari kolom awal ke akhir (simulasi stamina)
+        const colScore = total > 0 ? (col.correct / total) * 100 : 0;
+        enduranceData.push(colScore);
+        
+        // Keajengan: konsistensi kecepatan (variance dari rata-rata)
+        if (idx > 0) {
+          const avgSpeed = speedData.slice(0, idx + 1).reduce((a, b) => a + b, 0) / (idx + 1);
+          const variance = 100 - Math.abs(speed - avgSpeed);
+          consistencyData.push(variance);
+        } else {
+          consistencyData.push(100);
+        }
+      });
+      
+      return {
+        speed: speedData,
+        accuracy: accuracyData,
+        endurance: enduranceData,
+        consistency: consistencyData,
+        avgSpeed: speedData.reduce((a, b) => a + b, 0) / speedData.length,
+        avgAccuracy: accuracyData.reduce((a, b) => a + b, 0) / accuracyData.length,
+        avgEndurance: enduranceData.reduce((a, b) => a + b, 0) / enduranceData.length,
+        avgConsistency: consistencyData.reduce((a, b) => a + b, 0) / consistencyData.length
+      };
+    }
+    
+    function drawPerformanceChart(metrics) {
+      const canvas = document.getElementById('performance-chart');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
+      
+      // Padding
+      const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+      const chartWidth = width - padding.left - padding.right;
+      const chartHeight = height - padding.top - padding.bottom;
+      
+      // Background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+      
+      // Grid lines
+      ctx.strokeStyle = '#e5e7eb';
+      ctx.lineWidth = 1;
+      
+      // Horizontal grid
+      for (let i = 0; i <= 10; i++) {
+        const y = padding.top + (chartHeight / 10) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(padding.left + chartWidth, y);
+        ctx.stroke();
+        
+        // Y-axis labels
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '12px Poppins';
+        ctx.textAlign = 'right';
+        ctx.fillText(`${100 - i * 10}`, padding.left - 10, y + 4);
+      }
+      
+      // Vertical grid
+      for (let i = 0; i <= 10; i++) {
+        const x = padding.left + (chartWidth / 10) * i;
+        ctx.beginPath();
+        ctx.moveTo(x, padding.top);
+        ctx.lineTo(x, padding.top + chartHeight);
+        ctx.stroke();
+        
+        // X-axis labels
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '12px Poppins';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${i + 1}`, x, padding.top + chartHeight + 20);
+      }
+      
+      // Axis labels
+      ctx.fillStyle = '#374151';
+      ctx.font = 'bold 14px Poppins';
+      ctx.textAlign = 'center';
+      ctx.fillText('Kolom', padding.left + chartWidth / 2, height - 10);
+      
+      ctx.save();
+      ctx.translate(15, padding.top + chartHeight / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Nilai (%)', 0, 0);
+      ctx.restore();
+      
+      // Draw lines
+      const datasets = [
+        { data: metrics.speed, color: '#3b82f6', label: 'Kecepatan' },
+        { data: metrics.accuracy, color: '#10b981', label: 'Ketelitian' },
+        { data: metrics.endurance, color: '#f59e0b', label: 'Ketahanan' },
+        { data: metrics.consistency, color: '#8b5cf6', label: 'Keajengan' }
+      ];
+      
+      datasets.forEach(dataset => {
+        ctx.strokeStyle = dataset.color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        dataset.data.forEach((value, idx) => {
+          const x = padding.left + (chartWidth / 10) * idx + (chartWidth / 20);
+          const y = padding.top + chartHeight - (value / 100) * chartHeight;
+          
+          if (idx === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        });
+        
+        ctx.stroke();
+        
+        // Draw points
+        ctx.fillStyle = dataset.color;
+        dataset.data.forEach((value, idx) => {
+          const x = padding.left + (chartWidth / 10) * idx + (chartWidth / 20);
+          const y = padding.top + chartHeight - (value / 100) * chartHeight;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      });
+    }
+    
+    function generateAnalysis(result) {
+      const { score, totalCorrect, totalWrong, totalUnanswered, columnResults, metrics } = result;
+      
+      let analysis = [];
+      
+      // Analisis Nilai Akhir
+      if (score >= 90) {
+        analysis.push({ type: 'success', icon: '🏆', title: 'Nilai Akhir: Sangat Baik', text: 'Tingkat kecermatan Anda sangat baik. Anda mampu mengenali pola dengan cepat dan akurat.' });
+      } else if (score >= 75) {
+        analysis.push({ type: 'info', icon: '✅', title: 'Nilai Akhir: Baik', text: 'Tingkat kecermatan Anda baik. Pertahankan konsentrasi untuk hasil yang lebih optimal.' });
+      } else if (score >= 60) {
+        analysis.push({ type: 'warning', icon: '⚠️', title: 'Nilai Akhir: Cukup', text: 'Tingkat kecermatan Anda cukup. Latihan lebih intensif dapat meningkatkan performa.' });
+      } else {
+        analysis.push({ type: 'danger', icon: '📉', title: 'Nilai Akhir: Perlu Peningkatan', text: 'Tingkat kecermatan perlu ditingkatkan. Fokus pada latihan pengenalan pola dan kecepatan.' });
+      }
+      
+      // Analisis Kecepatan
+      const avgSpeed = metrics.avgSpeed;
+      if (avgSpeed >= 80) {
+        analysis.push({ type: 'success', icon: '   ', title: 'Kecepatan: Sangat Tinggi', text: `Kecepatan pengerjaan sangat baik (${Math.round(avgSpeed)}%). Anda mampu menjawab dengan cepat.` });
+      } else if (avgSpeed >= 60) {
+        analysis.push({ type: 'info', icon: '⏱️', title: 'Kecepatan: Baik', text: `Kecepatan pengerjaan cukup baik (${Math.round(avgSpeed)}%). Pertahankan tempo ini.` });
+      } else {
+        analysis.push({ type: 'warning', icon: '🐢', title: 'Kecepatan: Perlu Ditingkatkan', text: `Kecepatan pengerjaan perlu ditingkatkan (${Math.round(avgSpeed)}%). Latih kecepatan respon Anda.` });
+      }
+      
+      // Analisis Ketelitian (Accuracy)
+      const avgAccuracy = metrics.avgAccuracy;
+      if (avgAccuracy >= 90) {
+        analysis.push({ type: 'success', icon: '🎯', title: 'Ketelitian: Sangat Tinggi', text: `Tingkat akurasi sangat tinggi (${Math.round(avgAccuracy)}%). Sangat teliti dalam menjawab.` });
+      } else if (avgAccuracy >= 75) {
+        analysis.push({ type: 'info', icon: '✓', title: 'Ketelitian: Baik', text: `Tingkat akurasi baik (${Math.round(avgAccuracy)}%). Tetap teliti dalam menjawab.` });
+      } else if (avgAccuracy >= 60) {
+        analysis.push({ type: 'warning', icon: '⚠️', title: 'Ketelitian: Cukup', text: `Tingkat akurasi cukup (${Math.round(avgAccuracy)}%). Kurangi kesalahan dengan lebih fokus.` });
+      } else {
+        analysis.push({ type: 'danger', icon: '❌', title: 'Ketelitian: Perlu Peningkatan', text: `Tingkat akurasi perlu ditingkatkan (${Math.round(avgAccuracy)}%). Jangan terburu-buru dalam menjawab.` });
+      }
+      
+      // Analisis Ketahanan (Endurance)
+      const avgEndurance = metrics.avgEndurance;
+      const firstHalf = metrics.endurance.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
+      const secondHalf = metrics.endurance.slice(5).reduce((a, b) => a + b, 0) / 5;
+      const enduranceDrop = firstHalf - secondHalf;
+      
+      if (enduranceDrop <= 5) {
+        analysis.push({ type: 'success', icon: '💪', title: 'Ketahanan: Sangat Baik', text: `Ketahanan mental sangat baik. Performa stabil dari awal hingga akhir (penurunan ${Math.round(enduranceDrop)}%).` });
+      } else if (enduranceDrop <= 15) {
+        analysis.push({ type: 'info', icon: '🏃', title: 'Ketahanan: Baik', text: `Ketahanan mental baik. Ada sedikit penurunan di akhir (${Math.round(enduranceDrop)}%), namun masih dalam batas wajar.` });
+      } else {
+        analysis.push({ type: 'warning', icon: '😓', title: 'Ketahanan: Perlu Ditingkatkan', text: `Ketahanan mental perlu ditingkatkan. Performa menurun signifikan di akhir (${Math.round(enduranceDrop)}%). Latih stamina mental Anda.` });
+      }
+      
+      // Analisis Keajengan (Consistency)
+      const avgConsistency = metrics.avgConsistency;
+      if (avgConsistency >= 85) {
+        analysis.push({ type: 'success', icon: '📊', title: 'Keajengan: Sangat Konsisten', text: `Performa sangat konsisten di semua kolom (${Math.round(avgConsistency)}%). Tidak ada variasi signifikan.` });
+      } else if (avgConsistency >= 70) {
+        analysis.push({ type: 'info', icon: '📈', title: 'Keajengan: Cukup Konsisten', text: `Performa cukup konsisten (${Math.round(avgConsistency)}%). Beberapa kolom menunjukkan variasi kecil.` });
+      } else {
+        const colScores = columnResults.map(col => {
+          const total = col.correct + col.wrong + col.unanswered;
+          return total > 0 ? (col.correct / total) * 100 : 0;
+        });
+        const minScore = Math.min(...colScores);
+        const weakestCol = colScores.indexOf(minScore) + 1;
+        analysis.push({ type: 'warning', icon: '📉', title: 'Keajengan: Tidak Konsisten', text: `Performa tidak konsisten (${Math.round(avgConsistency)}%). Kolom ${weakestCol} menunjukkan hasil terendah. Latih fokus dan konsentrasi.` });
+      }
+      
+      // Kesimpulan dan Rekomendasi
+      let recommendation = '';
+      if (score >= 90 && avgSpeed >= 80 && avgAccuracy >= 90 && avgConsistency >= 85) {
+        recommendation = 'Performa Anda sudah sangat baik di semua aspek. Pertahankan dan tingkatkan terus kemampuan Anda.';
+      } else if (score >= 75) {
+        recommendation = 'Performa Anda sudah baik. Fokus pada aspek yang masih perlu ditingkatkan untuk hasil yang lebih optimal.';
+      } else {
+        const weakPoints = [];
+        if (avgSpeed < 60) weakPoints.push('kecepatan');
+        if (avgAccuracy < 75) weakPoints.push('ketelitian');
+        if (enduranceDrop > 15) weakPoints.push('ketahanan');
+        if (avgConsistency < 70) weakPoints.push('konsistensi');
+        
+        recommendation = `Fokuskan latihan pada: ${weakPoints.join(', ')}. Latihan rutin akan meningkatkan kemampuan Anda.`;
+      }
+      
+      analysis.push({ 
+        type: 'info', 
+        icon: '  ', 
+        title: 'Rekomendasi', 
+        text: recommendation 
+      });
+      
+      const typeColors = {
+        success: 'bg-green-50 border-green-200 text-green-800',
+        info: 'bg-blue-50 border-blue-200 text-blue-800',
+        warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+        danger: 'bg-red-50 border-red-200 text-red-800'
+      };
+      
+      return analysis.map(item => `
+        <div class="p-4 rounded-xl border ${typeColors[item.type]}">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">${item.icon}</span>
+            <div class="flex-1">
+              <p class="font-bold mb-1">${item.title}</p>
+              <p>${item.text}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function getScoreColor(score) {
+      if (score >= 90) return 'text-green-600';
+      if (score >= 75) return 'text-blue-600';
+      if (score >= 60) return 'text-yellow-600';
+      if (score >= 40) return 'text-orange-600';
+      return 'text-red-600';
+    }
+    
+    function getScoreCategory(score) {
+      if (score >= 90) return 'Sangat Baik';
+      if (score >= 75) return 'Baik';
+      if (score >= 60) return 'Cukup';
+      if (score >= 40) return 'Kurang';
+      return 'Sangat Kurang';
+    }
+    
+    function backToStudentDashboard() {
+      currentTest = null;
+      showPanel('student-dashboard');
+      renderStudentResults();
+    }
+    
+    function backToStudentDashboardFromPrep() {
+      currentTest = null;
+      showPanel('student-dashboard');
+      updateActivity(currentStudent.id, 'Online - Dashboard');
+    }
+    
+    // ========== Admin Results ==========
+    function renderAdminResults() {
+      const container = document.getElementById('results-list');
+      
+      if (appData.results.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Belum ada hasil ujian</p>';
+        return;
+      }
+      
+      const sortedResults = [...appData.results].sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+      
+      container.innerHTML = sortedResults.map(result => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <div>
+            <p class="font-semibold">${result.studentName}</p>
+            <p class="text-sm text-gray-500">${result.packageName} • ${new Date(result.completedAt).toLocaleDateString('id-ID')}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <p class="text-2xl font-bold ${getScoreColor(result.score)}">${result.score}</p>
+              <p class="text-sm text-gray-500">${getScoreCategory(result.score)}</p>
+            </div>
+            <button onclick="viewResultDetail('${result.id}')" class="px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-700">Detail</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function viewResultDetail(resultId) {
+      const result = appData.results.find(r => r.id === resultId);
+      if (!result) return;
+      
+      document.getElementById('result-detail-modal').classList.remove('hidden');
+      
+      const content = `
+        <div class="text-center mb-6">
+          <p class="text-gray-500 mb-2">${result.studentName} - ${result.packageName}</p>
+          <div class="text-5xl font-bold ${getScoreColor(result.score)} mb-1">${result.score}</div>
+          <p class="text-gray-600">${getScoreCategory(result.score)}</p>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="bg-green-50 p-4 rounded-xl text-center">
+            <p class="text-sm text-green-600">Benar</p>
+            <p class="text-2xl font-bold text-green-800">${result.totalCorrect}</p>
+          </div>
+          <div class="bg-red-50 p-4 rounded-xl text-center">
+            <p class="text-sm text-red-600">Salah</p>
+            <p class="text-2xl font-bold text-red-800">${result.totalWrong}</p>
+          </div>
+          <div class="bg-gray-50 p-4 rounded-xl text-center">
+            <p class="text-sm text-gray-600">Tidak Dijawab</p>
+            <p class="text-2xl font-bold text-gray-800">${result.totalUnanswered}</p>
+          </div>
+        </div>
+        
+        <h4 class="font-bold mb-3">Detail Per Kolom</h4>
+        <div class="space-y-2 mb-6">
+          ${result.columnResults.map((col, idx) => {
+            const total = col.correct + col.wrong + col.unanswered;
+            const colScore = total > 0 ? Math.round((col.correct / total) * 100) : 0;
+            return `
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span>Kolom ${idx + 1}</span>
+                <div class="flex items-center gap-4 text-sm">
+                  <span class="text-green-600">✓ ${col.correct}</span>
+                  <span class="text-red-600">✗ ${col.wrong}</span>
+                  <span class="text-gray-400">○ ${col.unanswered}</span>
+                  <span class="font-bold ${getScoreColor(colScore)}">${colScore}%</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        ${result.metrics ? `
+          <h4 class="font-bold mb-3">Grafik Performa</h4>
+          <div class="bg-gray-50 p-4 rounded-xl mb-6">
+            <canvas id="modal-performance-chart" width="700" height="350"></canvas>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 rounded" style="background: #3b82f6;"></div>
+              <span class="text-sm">Kecepatan</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 rounded" style="background: #10b981;"></div>
+              <span class="text-sm">Ketelitian</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 rounded" style="background: #f59e0b;"></div>
+              <span class="text-sm">Ketahanan</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-4 rounded" style="background: #8b5cf6;"></div>
+              <span class="text-sm">Keajengan</span>
+            </div>
+          </div>
+        ` : ''}
+        
+        <h4 class="font-bold mb-3">Analisis</h4>
+        <div class="space-y-3">
+          ${generateAnalysis(result)}
+        </div>
+        
+        <p class="text-sm text-gray-400 mt-4 text-center">
+          Selesai: ${new Date(result.completedAt).toLocaleString('id-ID')}
+        </p>
+      `;
+      
+      document.getElementById('result-detail-content').innerHTML = content;
+      
+      // Draw chart jika ada metrics
+      if (result.metrics) {
+        setTimeout(() => {
+          const canvas = document.getElementById('modal-performance-chart');
+          if (canvas) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const padding = { top: 30, right: 30, bottom: 50, left: 50 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= 10; i++) {
+              const y = padding.top + (chartHeight / 10) * i;
+              ctx.beginPath();
+              ctx.moveTo(padding.left, y);
+              ctx.lineTo(padding.left + chartWidth, y);
+              ctx.stroke();
+              
+              ctx.fillStyle = '#6b7280';
+              ctx.font = '11px Poppins';
+              ctx.textAlign = 'right';
+              ctx.fillText(`${100 - i * 10}`, padding.left - 8, y + 3);
+            }
+            
+            for (let i = 0; i <= 10; i++) {
+              const x = padding.left + (chartWidth / 10) * i;
+              ctx.beginPath();
+              ctx.moveTo(x, padding.top);
+              ctx.lineTo(x, padding.top + chartHeight);
+              ctx.stroke();
+              
+              ctx.fillStyle = '#6b7280';
+              ctx.font = '11px Poppins';
+              ctx.textAlign = 'center';
+              ctx.fillText(`${i + 1}`, x, padding.top + chartHeight + 18);
+            }
+            
+            ctx.fillStyle = '#374151';
+            ctx.font = 'bold 12px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText('Kolom', padding.left + chartWidth / 2, height - 8);
+            
+            ctx.save();
+            ctx.translate(12, padding.top + chartHeight / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Nilai (%)', 0, 0);
+            ctx.restore();
+            
+            const datasets = [
+              { data: result.metrics.speed, color: '#3b82f6' },
+              { data: result.metrics.accuracy, color: '#10b981' },
+              { data: result.metrics.endurance, color: '#f59e0b' },
+              { data: result.metrics.consistency, color: '#8b5cf6' }
+            ];
+            
+            datasets.forEach(dataset => {
+              ctx.strokeStyle = dataset.color;
+              ctx.lineWidth = 2.5;
+              ctx.beginPath();
+              
+              dataset.data.forEach((value, idx) => {
+                const x = padding.left + (chartWidth / 10) * idx + (chartWidth / 20);
+                const y = padding.top + chartHeight - (value / 100) * chartHeight;
+                
+                if (idx === 0) {
+                  ctx.moveTo(x, y);
+                } else {
+                  ctx.lineTo(x, y);
+                }
+              });
+              
+              ctx.stroke();
+              
+              ctx.fillStyle = dataset.color;
+              dataset.data.forEach((value, idx) => {
+                const x = padding.left + (chartWidth / 10) * idx + (chartWidth / 20);
+                const y = padding.top + chartHeight - (value / 100) * chartHeight;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+              });
+            });
+          }
+        }, 100);
+      }
+    }
+    
+    function closeResultDetail() {
+      document.getElementById('result-detail-modal').classList.add('hidden');
+    }
+    
+    // ========== Update All Views ==========
+    function updateAllViews() {
+      renderStudentsList();
+      renderPackagesList();
+      renderTrashList();
+      renderMonitoring();
+      renderAdminResults();
+      
+      if (currentStudent) {
+        renderStudentPackages();
+        renderStudentResults();
+      }
+      
+      const emailField = document.getElementById('admin-email');
+      if (emailField && appData.adminEmail) {
+        emailField.value = appData.adminEmail;
+      }
+    }
+    
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1081695461afdc7',t:'MTc4MjI2NTg5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
